@@ -119,8 +119,11 @@ class COMPTER extends TreeNode {
         this.grid = grid;
         this.neighbors = Neighborhoods.getNeighborhoodByName(voisinage).getNeighbors(position);
     }
-    // verifier voisinage en fonction de la grid si en 1D 2D 3D ou plus avec grid.getDimensions().lenght!!
+
+    // verifier voisinage en fonction de la grid si en 1D 2D 3D ou plus avec
+    // grid.getDimensions().lenght!!
     // out of bounds exception
+
     @Override
     int getValue() {
         int liveNeighbors = 0;
@@ -135,13 +138,11 @@ class COMPTER extends TreeNode {
     }
 }
 
-
 public class Rules {
 
     public static int evaluate(TreeNode tree) {
         return tree.getValue();
     }
-
 
     public static void main(String[] args) {
         int rows = 11;
@@ -149,27 +150,24 @@ public class Rules {
         Random random = new Random();
         Grid_ND grid = new Grid_ND(rows, cols);
 
-        for (int i = 0; i < rows*cols*0.25; i++) 
-        {
+        for (int i = 0; i < rows * cols * 0.25; i++) {
             grid.getCell(random.nextInt(rows), random.nextInt(cols)).setValue(true);
         }
         GrilleGraphique Grid_2D = new GrilleGraphique(grid.getDimensions()[0], grid.getDimensions()[1], 12);
 
         int i, j;
         for (i = 0; i < rows; i++) {
-            for (j = 0; j < cols; j++) 
-            {
-                if (grid.getCell(i,j).getCellValue()) 
-                {
+            for (j = 0; j < cols; j++) {
+                if (grid.getCell(i, j).getCellValue()) {
                     Grid_2D.colorierCase(i, j);
                 }
             }
         }
 
-        int[] position = {5, 5};
+        int[] position = { 5, 5 };
 
         // Using COMPTER with the G8 neighborhood
-        TreeNode compterNode = new COMPTER(grid, "G4", position); //pb voisinage si pas 2d
+        TreeNode compterNode = new COMPTER(grid, "G4", position); // pb voisinage si pas 2d
 
         int result = evaluate(compterNode);
         System.out.println("Result: " + result);
@@ -182,115 +180,3 @@ public class Rules {
         System.out.println("Result: " + result);
     }
 }
-
-
-/*
- * Fonction recursive
- * public getValue(Tree t) // bien mettre val 1 en noeud gauche et val 2 en
- * noeud droit
- * {
- * if(leaf is int)
- * {
- * return leaf;
- * }
- * else if (leaf is operator)
- * {
- * if(operator is ET)
- * {
- * if(getValue(left) != 0 && getValue(right) != 0)
- * {
- * return 1;
- * }
- * else
- * {
- * return 0;
- * }
- * }
- * else if(operator is OU)
- * {
- * if(getValue(left) != 0 || getValue(right) != 0)
- * {
- * return 1;
- * }
- * else
- * {
- * return 0;
- * }
- * }
- * else if(operator is NON)
- * {
- * if(getValue(left) == 0) // Val1 node left
- * {
- * return 1;
- * }
- * else
- * {
- * return 0;
- * }
- * }
- * else if(operator is SUP)
- * {
- * if(getValue(left) > getValue(right))
- * {
- * return 1;
- * }
- * else
- * {
- * return 0;
- * }
- * }
- * else if(operator is SUPEQ)
- * {
- * if(getValue(left) >= getValue(right))
- * {
- * return 1;
- * }
- * else
- * {
- * return 0;
- * }
- * }
- * else if(operator is EQ)
- * {
- * if(getValue(left) == getValue(right))
- * {
- * return 1;
- * }
- * else
- * {
- * return 0;
- * }
- * }
- * else if(operator is COMPTER)
- * {
- * if(getValue(left) or getValue(right) is voisinage)
- * {
- * return nb de cellules voisines a l'état 1;
- * }
- * }
- * else if(operator is ADD)
- * {
- * return getValue(left) + getValue(right);
- * }
- * else if(operator is SUB)
- * {
- * return getValue(left) - getValue(right);
- * }
- * else if(operator is MUL)
- * {
- * return getValue(left) * getValue(right);
- * }
- * else if(operator is SI) // 3 enfants car 3 valeurs
- * {
- * if(getValue(left) != 0)
- * {
- * return getValue(middle);
- * }
- * else
- * {
- * return getValue(right);
- * }
- * }
- * }
- * }
- */
