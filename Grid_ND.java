@@ -28,7 +28,7 @@ public class Grid_ND
     }
 
     // Method to get the cell from a position
-    public Cell getCell(int[] pos) {
+    public Cell getCell(int... pos) {
         if (pos.length == 1) {
             return ((Cell) grid[pos[0]]); // Get cell
         } else {

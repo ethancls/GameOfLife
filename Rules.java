@@ -1,5 +1,7 @@
 public class Rules {
     
+}
+    
     /* Fonction recursive
     public getValue(Tree t) // bien mettre val 1 en noeud gauche et val 2 en noeud droit
     {
@@ -107,4 +109,4 @@ public class Rules {
             }
         }
     }*/
-}
+

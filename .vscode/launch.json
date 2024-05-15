@@ -3,6 +3,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Rules",
+            "request": "launch",
+            "mainClass": "Rules",
+            "projectName": "GameOfLife_4dc4b19b"
+        },
+        {
+            "type": "java",
+            "name": "NeighborhoodTest",
+            "request": "launch",
+            "mainClass": "NeighborhoodTest",
+            "projectName": "GameOfLife_4dc4b19b"
+        },
+        {
+            "type": "java",
             "name": "Grid_NDTest",
             "request": "launch",
             "mainClass": "Grid_NDTest",
