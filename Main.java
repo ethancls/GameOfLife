@@ -1,0 +1,140 @@
+import java.util.Random;
+import java.awt.Color;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import javax.swing.JPanel;
+import javax.swing.Timer;
+
+@SuppressWarnings("unused")
+public class Main {
+
+    public static void main(String[] args) {
+        int rows = 5;
+        int cols = 5;
+        Random random = new Random();
+        Grid_ND grid = new Grid_ND(rows, cols);
+
+        /*for (int i = 0; i < rows * cols * 0.05; i++) {
+            grid.getCell(random.nextInt(rows), random.nextInt(cols)).setValue(true);
+        }*/
+        
+        grid.getCell(2, 1).setValue(true);
+        grid.getCell(2, 2).setValue(true);
+        grid.getCell(2,3).setValue(true);
+        
+
+        GrilleGraphique Grid_2D = new GrilleGraphique(grid.getDimensions()[0], grid.getDimensions()[1], 12);
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid.getCell(i, j).getCellValue()) {
+                    Grid_2D.colorierCase(i, j, Color.BLACK);
+                }
+            }
+        }
+
+        class SimulationPanel extends JPanel implements KeyListener {
+            private boolean simulationRunning = false;
+
+            public SimulationPanel() {
+                addKeyListener(this);
+                setFocusable(true);
+                requestFocusInWindow();
+            }
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (e.getKeyChar() == 's') {
+                    simulationRunning = true;
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {}
+
+            @Override
+            public void keyReleased(KeyEvent e) {}
+
+            public boolean isSimulationRunning() {
+                return simulationRunning;
+            }
+        }
+
+        SimulationPanel panel = new SimulationPanel();
+        Grid_2D.add(panel);
+        Grid_2D.revalidate();
+
+        class GridWrapper {
+            private Grid_ND grid;
+        
+            public GridWrapper(Grid_ND grid) {
+                this.grid = grid;
+            }
+        
+            public Grid_ND getGrid() {
+                return grid;
+            }
+        
+            public void setGrid(Grid_ND grid) {
+                this.grid = grid;
+            }
+        }
+        
+        final GridWrapper gridWrapper = new GridWrapper(grid);
+        
+        Timer timer = new Timer(1000, e -> {
+            if (panel.isSimulationRunning()) {
+                gridWrapper.setGrid(runSimulationStep(gridWrapper.getGrid(), Grid_2D));
+            }
+        });
+
+        timer.start();
+    }
+
+    private static Grid_ND runSimulationStep(Grid_ND grid, GrilleGraphique Grid_2D) {
+        int rows = grid.getDimensions()[0];
+        int cols = grid.getDimensions()[1];
+
+        Grid_ND new_grid = new Grid_ND(rows, cols);
+
+        for (int i = 1; i < rows - 1; i++) {
+            for (int j = 1; j < cols - 1; j++) {
+                TreeNode compterG0 = new COMPTER(grid, "G0", i, j);
+                TreeNode compterG8 = new COMPTER(grid, "G8*", i, j);
+
+                //System.out.println("CompterG8 : " + "[" +i + ","+ j + "] | " +compterG8.getValue());
+
+                TreeNode eqG0_1 = new EQ(compterG0, new ConstNode(1)); // Mort ou vivant
+                TreeNode EqG8_3 = new EQ(compterG8, new ConstNode(3)); // 3 voisins
+                TreeNode EqG8_2 = new EQ(compterG8, new ConstNode(2)); // 2 voisins
+                TreeNode Ou_2 = new OU(EqG8_2, EqG8_3); // 2 ou 3 voisins
+
+                TreeNode siSupEqG8_4 = new SI(Ou_2, new ConstNode(1), new ConstNode(0)); // 2 ou 3 voisins ? 1 : 0
+                TreeNode siEqG8_2 = new SI(EqG8_3, new ConstNode(1), new ConstNode(0)); // 3 voisins ? 1 : 0
+
+                TreeNode mainSi = new SI(eqG0_1, siSupEqG8_4, siEqG8_2);
+
+                int result = mainSi.getValue();
+                if (result == 1) {
+                    new_grid.getCell(i, j).setValue(true);
+                } else {
+                    new_grid.getCell(i, j).setValue(false);
+                }
+            }
+        }
+        
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (new_grid.getCell(i, j).getCellValue()) {
+                    Grid_2D.colorierCase(i, j, Color.BLACK);
+                }
+                else 
+                {
+                    Grid_2D.colorierCase(i, j, Color.WHITE);
+                }
+            }
+        }
+
+        return new_grid;
+    }
+}

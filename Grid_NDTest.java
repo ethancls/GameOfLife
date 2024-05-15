@@ -21,7 +21,7 @@ public class Grid_NDTest {
             {
                 if (grid.getCell(i,j).getCellValue()) 
                 {
-                    Grid_2D.colorierCase(i, j);
+                   // Grid_2D.colorierCase(i, j);
                 }
             }
         }

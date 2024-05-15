@@ -1,4 +1,3 @@
-
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Graphics;
@@ -17,7 +16,7 @@ public class GrilleGraphique extends JPanel
 {
 	private int largeur, hauteur, taille_case;
 	
-	private List<Point> casesAColorier;
+	private List<ColoredPoint> casesAColorier;
 
 	/**
 	 * Constructeur.
@@ -43,11 +42,11 @@ public class GrilleGraphique extends JPanel
 	protected void paintComponent(Graphics g) 
 	{
 		super.paintComponent(g);
-		for (Point fillCell : casesAColorier) 
+		for (ColoredPoint fillCell : casesAColorier) 
 		{
-			int cellX = taille_case + (fillCell.x * taille_case);
-			int cellY = taille_case + (fillCell.y * taille_case);
-			g.setColor(Color.BLUE);
+			int cellX = taille_case + (fillCell.getPoint().x * taille_case);
+			int cellY = taille_case + (fillCell.getPoint().y * taille_case);
+			g.setColor(fillCell.getColor());
 			g.fillRect(cellX, cellY, taille_case, taille_case);
 		}
 		
@@ -64,13 +63,14 @@ public class GrilleGraphique extends JPanel
 	}
 
 	/**
-	 * Fonction permettant de colorier, en rouge, une case de la grille
+	 * Fonction permettant de colorier une case de la grille avec une couleur spécifique.
 	 * @param x Abscisse de la case à colorier (entre 0 et largeur de grille - 1).
 	 * @param y Ordonnée de la case à colorier (entre 0 et hauteur de grille - 1).
+	 * @param color Couleur de la case à colorier.
 	 */
-	public void colorierCase(int x, int y) 
+	public void colorierCase(int x, int y, Color color) 
 	{
-		casesAColorier.add(new Point(x, y));
+		casesAColorier.add(new ColoredPoint(new Point(x, y), color));
 		repaint();
 	}
 	
@@ -90,5 +90,26 @@ public class GrilleGraphique extends JPanel
 	public int getHauteur()
 	{
 		return hauteur;
+	}
+	
+	/**
+	 * Classe interne pour stocker un point avec une couleur.
+	 */
+	private static class ColoredPoint {
+		private Point point;
+		private Color color;
+
+		public ColoredPoint(Point point, Color color) {
+			this.point = point;
+			this.color = color;
+		}
+
+		public Point getPoint() {
+			return point;
+		}
+
+		public Color getColor() {
+			return color;
+		}
 	}
 }

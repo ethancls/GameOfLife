@@ -115,11 +115,12 @@ class COMPTER extends TreeNode {
     private final Grid_ND grid;
     private final List<int[]> neighbors;
 
-    public COMPTER(Grid_ND grid, String voisinage, int[] position) {
+    public COMPTER(Grid_ND grid, String voisinage, int... position) {
         this.grid = grid;
         this.neighbors = Neighborhoods.getNeighborhoodByName(voisinage).getNeighbors(position);
     }
 
+    
     // verifier voisinage en fonction de la grid si en 1D 2D 3D ou plus avec
     // grid.getDimensions().lenght!!
     // out of bounds exception
@@ -153,17 +154,7 @@ public class Rules {
         for (int i = 0; i < rows * cols * 0.25; i++) {
             grid.getCell(random.nextInt(rows), random.nextInt(cols)).setValue(true);
         }
-        GrilleGraphique Grid_2D = new GrilleGraphique(grid.getDimensions()[0], grid.getDimensions()[1], 12);
-
-        int i, j;
-        for (i = 0; i < rows; i++) {
-            for (j = 0; j < cols; j++) {
-                if (grid.getCell(i, j).getCellValue()) {
-                    Grid_2D.colorierCase(i, j);
-                }
-            }
-        }
-
+       
         int[] position = { 5, 5 };
 
         // Using COMPTER with the G8 neighborhood
