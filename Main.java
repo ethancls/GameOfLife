@@ -9,19 +9,53 @@ import javax.swing.Timer;
 public class Main {
 
     public static void main(String[] args) {
-        int rows = 5;
-        int cols = 5;
+        int rows = 50;
+        int cols = 50;
         Random random = new Random();
         Grid_ND grid = new Grid_ND(rows, cols);
 
-        /*for (int i = 0; i < rows * cols * 0.05; i++) {
-            grid.getCell(random.nextInt(rows), random.nextInt(cols)).setValue(true);
-        }*/
-        
-        grid.getCell(2, 1).setValue(true);
-        grid.getCell(2, 2).setValue(true);
-        grid.getCell(2,3).setValue(true);
-        
+        /*
+         * for (int i = 0; i < rows * cols * 0.05; i++) {
+         * grid.getCell(random.nextInt(rows), random.nextInt(cols)).setValue(true);
+         * }
+         */
+
+         for(int i = -4; i < 2; i++)
+         {
+                for(int j = -4; j < -2; j++)
+                {
+                    grid.getCell(rows/2 + j, cols/2 + i).setValue(true);
+                }
+         }
+
+         for(int i = -1; i < 5; i++)
+         {
+                for(int j = -4; j < -2; j++)
+                {
+                    grid.getCell(rows/2 + i, cols/2 + j).setValue(true);
+                }
+         }
+
+         for(int i = -4; i < 2; i++)
+         {
+                for(int j = -4; j < -2; j++)
+                {
+                    grid.getCell(rows/2 - j, cols/2 - i).setValue(true);
+                }
+         }
+
+         for(int i = -1; i < 5; i++)
+         {
+                for(int j = -4; j < -2; j++)
+                {
+                    grid.getCell(rows/2 - i, cols/2 - j).setValue(true);
+                }
+         }
+         
+         
+         
+         
+
 
         GrilleGraphique Grid_2D = new GrilleGraphique(grid.getDimensions()[0], grid.getDimensions()[1], 12);
 
@@ -50,10 +84,12 @@ public class Main {
             }
 
             @Override
-            public void keyPressed(KeyEvent e) {}
+            public void keyPressed(KeyEvent e) {
+            }
 
             @Override
-            public void keyReleased(KeyEvent e) {}
+            public void keyReleased(KeyEvent e) {
+            }
 
             public boolean isSimulationRunning() {
                 return simulationRunning;
@@ -66,25 +102,29 @@ public class Main {
 
         class GridWrapper {
             private Grid_ND grid;
-        
+            public int GENERATIONS = 0;
+
             public GridWrapper(Grid_ND grid) {
                 this.grid = grid;
             }
-        
+
             public Grid_ND getGrid() {
                 return grid;
             }
-        
+
             public void setGrid(Grid_ND grid) {
                 this.grid = grid;
             }
         }
-        
+
+        int GENERATIONS = 0;
         final GridWrapper gridWrapper = new GridWrapper(grid);
-        
-        Timer timer = new Timer(1000, e -> {
+        Timer timer = new Timer(200, e -> {
             if (panel.isSimulationRunning()) {
+                System.out.println("GENERATIONS: " + gridWrapper.GENERATIONS);
                 gridWrapper.setGrid(runSimulationStep(gridWrapper.getGrid(), Grid_2D));
+                gridWrapper.GENERATIONS++;
+
             }
         });
 
@@ -102,7 +142,8 @@ public class Main {
                 TreeNode compterG0 = new COMPTER(grid, "G0", i, j);
                 TreeNode compterG8 = new COMPTER(grid, "G8*", i, j);
 
-                //System.out.println("CompterG8 : " + "[" +i + ","+ j + "] | " +compterG8.getValue());
+                // System.out.println("CompterG8 : " + "[" +i + ","+ j + "] | "
+                // +compterG8.getValue());
 
                 TreeNode eqG0_1 = new EQ(compterG0, new ConstNode(1)); // Mort ou vivant
                 TreeNode EqG8_3 = new EQ(compterG8, new ConstNode(3)); // 3 voisins
@@ -122,14 +163,12 @@ public class Main {
                 }
             }
         }
-        
+
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 if (new_grid.getCell(i, j).getCellValue()) {
                     Grid_2D.colorierCase(i, j, Color.BLACK);
-                }
-                else 
-                {
+                } else {
                     Grid_2D.colorierCase(i, j, Color.WHITE);
                 }
             }
