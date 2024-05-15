@@ -4,6 +4,23 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Application;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.scene.*;
+import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.PhongMaterial;
+import javafx.scene.shape.Box;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Transform;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 
 @SuppressWarnings("unused")
 public class Main {
@@ -14,13 +31,13 @@ public class Main {
         Random random = new Random();
         Grid_ND grid = new Grid_ND(rows, cols);
 
-        /*
-         * for (int i = 0; i < rows * cols * 0.05; i++) {
-         * grid.getCell(random.nextInt(rows), random.nextInt(cols)).setValue(true);
-         * }
-         */
+        for (int i = 0; i < rows * cols * 0.5; i++)
+         {
+         grid.getCell(random.nextInt(rows), random.nextInt(cols)).setValue(true);
+         }
+         
 
-         for(int i = -4; i < 2; i++)
+         /*for(int i = -4; i < 2; i++)
          {
                 for(int j = -4; j < -2; j++)
                 {
@@ -50,7 +67,7 @@ public class Main {
                 {
                     grid.getCell(rows/2 - i, cols/2 - j).setValue(true);
                 }
-         }
+         }*/
          
          
          
@@ -122,7 +139,7 @@ public class Main {
         Timer timer = new Timer(200, e -> {
             if (panel.isSimulationRunning()) {
                 System.out.println("GENERATIONS: " + gridWrapper.GENERATIONS);
-                gridWrapper.setGrid(runSimulationStep(gridWrapper.getGrid(), Grid_2D));
+                gridWrapper.setGrid(run2DSimulationStep(gridWrapper.getGrid(), Grid_2D));
                 gridWrapper.GENERATIONS++;
 
             }
@@ -131,7 +148,7 @@ public class Main {
         timer.start();
     }
 
-    private static Grid_ND runSimulationStep(Grid_ND grid, GrilleGraphique Grid_2D) {
+    private static Grid_ND run2DSimulationStep(Grid_ND grid, GrilleGraphique Grid_2D) {
         int rows = grid.getDimensions()[0];
         int cols = grid.getDimensions()[1];
 
@@ -175,5 +192,10 @@ public class Main {
         }
 
         return new_grid;
+    }
+
+    private static Grid_ND run3DSimulationStep(Grid_ND grid)
+    {
+        return null;
     }
 }

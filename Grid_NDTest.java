@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.awt.Color;
 
 public class Grid_NDTest {
     public static void main(String[] args) {
@@ -21,7 +22,7 @@ public class Grid_NDTest {
             {
                 if (grid.getCell(i,j).getCellValue()) 
                 {
-                   // Grid_2D.colorierCase(i, j);
+                   Grid_2D.colorierCase(i, j, Color.BLACK);
                 }
             }
         }

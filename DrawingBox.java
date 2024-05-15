@@ -25,11 +25,11 @@ java --module-path ./javafx-sdk-22.0.1/lib --add-modules javafx.controls,javafx.
 
 public class DrawingBox extends Application {
 
-    private static final int WIDTH = 800;
-    private static final int HEIGHT = 600;
-    private static final int X = 40;
-    private static final int Y = 20;
-    private static final int Z = 40;
+    private static final int WIDTH = 1300;
+    private static final int HEIGHT = 1000;
+    private static final int X = 300;
+    private static final int Y = 300;
+    private static final int Z = 1;
     private static final int SMALL_BOX_SIZE = 5;
     private boolean[][][] grid = new boolean[X][Y][Z];
     private boolean[][][] newGrid = new boolean[X][Y][Z];
@@ -50,7 +50,7 @@ public class DrawingBox extends Application {
 
         Camera camera = new PerspectiveCamera();
         SubScene subScene = new SubScene(group, WIDTH, HEIGHT, true, SceneAntialiasing.BALANCED);
-        subScene.setFill(Color.BLACK);
+        subScene.setFill(Color.WHITE);
         subScene.setCamera(camera);
 
         Text generationCounter = new Text();
@@ -69,8 +69,8 @@ public class DrawingBox extends Application {
 
         StackPane root = new StackPane();
         root.getChildren().addAll(subScene, generationCounter, buttons);
-        StackPane.setAlignment(generationCounter, javafx.geometry.Pos.BOTTOM_LEFT);
-        StackPane.setAlignment(buttons, javafx.geometry.Pos.TOP_LEFT);
+        StackPane.setAlignment(generationCounter, javafx.geometry.Pos.TOP_LEFT);
+        StackPane.setAlignment(buttons, javafx.geometry.Pos.BOTTOM_LEFT);
 
         Scene scene = new Scene(root, WIDTH, HEIGHT);
 
@@ -94,7 +94,7 @@ public class DrawingBox extends Application {
             }
         });
 
-        primaryStage.setTitle("3D Game of Life");
+        primaryStage.setTitle("3D GameOfLife");
         primaryStage.setScene(scene);
         primaryStage.show();
 
@@ -162,8 +162,8 @@ public class DrawingBox extends Application {
                     if (grid[x][y][z]) {
                         Box box = new Box(SMALL_BOX_SIZE, SMALL_BOX_SIZE, SMALL_BOX_SIZE);
                         PhongMaterial material = new PhongMaterial();
-                        material.setDiffuseColor(Color.BLUE);
-                        material.setSpecularColor(Color.LIGHTGRAY);
+                        material.setDiffuseColor(Color.BLACK);
+                        //material.setSpecularColor(Color.DARKBLUE);
                         box.setMaterial(material);
                         box.setTranslateX(x * (SMALL_BOX_SIZE) - (X * (SMALL_BOX_SIZE) / 2));
                         box.setTranslateY(y * (SMALL_BOX_SIZE) - (Y * (SMALL_BOX_SIZE) / 2));
