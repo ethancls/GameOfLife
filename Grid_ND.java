@@ -1,7 +1,7 @@
 public class Grid_ND 
 {
-    public int[] dimensions; // number of dimensions V = (..., z, y, x) dans R^N
-    public Object[] grid; // tab of grid or cells
+    private int[] dimensions; // number of dimensions V = (..., z, y, x) dans R^N
+    private Object[] grid; // tab of grid or cells
 
     public Grid_ND(int... sizes)
     {
@@ -36,6 +36,10 @@ public class Grid_ND
             System.arraycopy(pos, 1, newPos, 0, pos.length - 1);
             return ((Grid_ND) grid[pos[0]]).getCell(newPos); // Recursively get value from sub-grid
         }
+    }
+
+    public int[] getDimensions() {
+        return dimensions;
     }
 
     public String toString()

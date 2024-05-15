@@ -3,6 +3,48 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Grid_NDTest",
+            "request": "launch",
+            "mainClass": "Grid_NDTest",
+            "projectName": "GameOfLife_4dc4b19b"
+        },
+        {
+            "type": "java",
+            "name": "DrawingBox",
+            "request": "launch",
+            "mainClass": "DrawingBox",
+            "projectName": "GameOfLife_4dc4b19b"
+        },
+        {
+            "type": "java",
+            "name": "Simple2DTest",
+            "request": "launch",
+            "mainClass": "Simple2DTest",
+            "projectName": "GameOfLife_4dc4b19b"
+        },
+        {
+            "type": "java",
+            "name": "GameOfLife",
+            "request": "launch",
+            "mainClass": "GameOfLife",
+            "projectName": "GameOfLife_4dc4b19b"
+        },
+        {
+            "type": "java",
+            "name": "Matrix3D",
+            "request": "launch",
+            "mainClass": "Matrix3D",
+            "projectName": "GameOfLife_4dc4b19b"
+        },
+        {
+            "type": "java",
+            "name": "Cube3D",
+            "request": "launch",
+            "mainClass": "Cube3D",
+            "projectName": "GameOfLife_4dc4b19b"
+        },
+        {
+            "type": "java",
             "name": "Launch Current File",
             "request": "launch",
             "mainClass": "${file}",
