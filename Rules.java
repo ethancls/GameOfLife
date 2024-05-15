@@ -1,6 +1,5 @@
 import java.util.List;
 import java.util.Random;
-import java.util.ArrayList;
 
 class ET extends OperatorNode {
     public ET(TreeNode left, TreeNode right) {
@@ -118,13 +117,16 @@ class COMPTER extends TreeNode {
 
     public COMPTER(Grid_ND grid, String voisinage, int[] position) {
         this.grid = grid;
-        this.neighbors = Neighborhoods.getNeighborhoodByName("G2").getNeighbors(position);
+        this.neighbors = Neighborhoods.getNeighborhoodByName(voisinage).getNeighbors(position);
     }
-
+    // verifier voisinage en fonction de la grid si en 1D 2D 3D ou plus avec grid.getDimensions().lenght!!
+    // out of bounds exception
     @Override
     int getValue() {
         int liveNeighbors = 0;
         for (int[] neighbor : neighbors) {
+            // System.out.println("Neighbor: " + neighbor[0] + ", " + neighbor[1]);
+            // System.out.println("Value: " + grid.getCell(neighbor).getCellValue());
             if (grid.getCell(neighbor).getCellValue() == true) {
                 liveNeighbors++;
             }
@@ -140,9 +142,10 @@ public class Rules {
         return tree.getValue();
     }
 
+
     public static void main(String[] args) {
-        int rows = 5;
-        int cols = 5;
+        int rows = 11;
+        int cols = 11;
         Random random = new Random();
         Grid_ND grid = new Grid_ND(rows, cols);
 
@@ -163,14 +166,19 @@ public class Rules {
             }
         }
 
-        int[] position = {3, 3};
+        int[] position = {5, 5};
 
         // Using COMPTER with the G8 neighborhood
-        TreeNode compterNode = new COMPTER(grid, "G0", position);
-        TreeNode eqNode = new EQ(compterNode, new ConstNode(2));
-        TreeNode siNode = new SI(eqNode, new ConstNode(1), new ConstNode(0));
+        TreeNode compterNode = new COMPTER(grid, "G4", position); //pb voisinage si pas 2d
 
-        int result = evaluate(siNode);
+        int result = evaluate(compterNode);
+        System.out.println("Result: " + result);
+
+        ConstNode val1 = new ConstNode(2);
+        ConstNode val2 = new ConstNode(2);
+        ConstNode val3 = new ConstNode(3);
+        TreeNode node = new SI(val1, val2, val3);
+        result = evaluate(node);
         System.out.println("Result: " + result);
     }
 }
