@@ -18,6 +18,11 @@ import javafx.scene.transform.Transform;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+/* COMMANDS TO COMPILE AND RUN
+javac --module-path ./javafx-sdk-22.0.1/lib --add-modules javafx.controls,javafx.fxml DrawingBox.java
+java --module-path ./javafx-sdk-22.0.1/lib --add-modules javafx.controls,javafx.fxml DrawingBox  
+*/
+
 public class DrawingBox extends Application {
 
     private static final int WIDTH = 800;
