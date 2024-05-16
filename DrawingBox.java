@@ -112,10 +112,15 @@ public class DrawingBox extends Application {
         for (int x = 0; x < X; x++) {
             for (int y = 0; y < Y; y++) {
                 for (int z = 0; z < Z; z++) {
-                    grid[x][y][z] = Math.random() < 0.01;  // Randomly set some cells to be alive
+                    // grid[x][y][z] = Math.random() < 0.01; // Randomly set some cells to be alive
                 }
             }
         }
+
+        grid[(X / 2)][(Y / 2) + 2][(Z / 2)] = true;
+        grid[(X / 2) + 1][Y / 2 + 2][(Z / 2)] = true;
+        grid[(X / 2) - 1][Y / 2 + 2][(Z / 2)] = true;
+
     }
 
     private void updateGrid() {
@@ -141,12 +146,14 @@ public class DrawingBox extends Application {
         for (int dx = -1; dx <= 1; dx++) {
             for (int dy = -1; dy <= 1; dy++) {
                 for (int dz = -1; dz <= 1; dz++) {
-                    if (dx == 0 && dy == 0 && dz == 0) continue;
+                    if (dx == 0 && dy == 0 && dz == 0)
+                        continue;
                     int nx = x + dx;
                     int ny = y + dy;
                     int nz = z + dz;
                     if (nx >= 0 && nx < X && ny >= 0 && ny < Y && nz >= 0 && nz < Z) {
-                        if (grid[nx][ny][nz]) count++;
+                        if (grid[nx][ny][nz])
+                            count++;
                     }
                 }
             }
@@ -163,7 +170,7 @@ public class DrawingBox extends Application {
                         Box box = new Box(SMALL_BOX_SIZE, SMALL_BOX_SIZE, SMALL_BOX_SIZE);
                         PhongMaterial material = new PhongMaterial();
                         material.setDiffuseColor(Color.BLACK);
-                        //material.setSpecularColor(Color.DARKBLUE);
+                        // material.setSpecularColor(Color.DARKBLUE);
                         box.setMaterial(material);
                         box.setTranslateX(x * (SMALL_BOX_SIZE) - (X * (SMALL_BOX_SIZE) / 2));
                         box.setTranslateY(y * (SMALL_BOX_SIZE) - (Y * (SMALL_BOX_SIZE) / 2));
@@ -180,8 +187,7 @@ public class DrawingBox extends Application {
         Rotate yRotate;
         group.getTransforms().addAll(
                 xRotate = new Rotate(0, Rotate.X_AXIS),
-                yRotate = new Rotate(0, Rotate.Y_AXIS)
-        );
+                yRotate = new Rotate(0, Rotate.Y_AXIS));
         xRotate.angleProperty().bind(angleX);
         yRotate.angleProperty().bind(angleY);
 

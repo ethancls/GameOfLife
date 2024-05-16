@@ -161,6 +161,7 @@ public class Main {
                 } else {
                     new_grid.getCell(i, j).setValue(false);
                 }
+
             }
         }
 
