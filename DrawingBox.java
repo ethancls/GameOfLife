@@ -180,9 +180,9 @@ public class DrawingBox extends Application {
                     if (grid[x][y][z]) {
                         Box box = new Box(SMALL_BOX_SIZE, SMALL_BOX_SIZE, SMALL_BOX_SIZE);
                         PhongMaterial material = new PhongMaterial();
-                        material.setDiffuseColor(Color.RED);
+                        material.setDiffuseColor(Color.rgb(x+150, y+150, z+150));
                         //material.setDiffuseMap(new javafx.scene.image.Image("./brick.jpg"));
-                        //material.setSpecularColor(Color.GRAY);
+                        material.setSpecularColor(Color.BLACK);
                         box.setMaterial(material);
                         box.setTranslateX(x * (SMALL_BOX_SIZE) - (X * (SMALL_BOX_SIZE) / 2));
                         box.setTranslateY(y * (SMALL_BOX_SIZE) - (Y * (SMALL_BOX_SIZE) / 2));

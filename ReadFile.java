@@ -31,8 +31,8 @@ public class ReadFile
 			
 			String line = reader.readLine();
 			
-			while (line != null) {
-				
+			while (line != null) 
+            {
 				System.out.println(line);
 
                 // Parsing
@@ -41,7 +41,8 @@ public class ReadFile
 				line = reader.readLine();
 			}
 			reader.close();
-		} catch (IOException e) {
+		} catch (IOException e) 
+        {
 			e.printStackTrace();
 		}
     }
