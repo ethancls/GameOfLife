@@ -28,8 +28,8 @@ public class DrawingBox extends Application {
     private static final int WIDTH = 1300;
     private static final int HEIGHT = 1000;
     private static final int X = 30;
-    private static final int Y = 50;
-    private static final int Z = 10;
+    private static final int Y = 30;
+    private static final int Z = 30;
     private static final int SMALL_BOX_SIZE = 5;
     private boolean[][][] grid = new boolean[X][Y][Z];
     private boolean[][][] newGrid = new boolean[X][Y][Z];
@@ -74,7 +74,7 @@ public class DrawingBox extends Application {
 
         Scene scene = new Scene(root, WIDTH, HEIGHT);
 
-        double initialDistance = -2 * X * SMALL_BOX_SIZE;
+        double initialDistance = X * SMALL_BOX_SIZE;
         group.translateXProperty().set(WIDTH / 2);
         group.translateYProperty().set(HEIGHT / 2);
         group.translateZProperty().set(initialDistance);
@@ -98,28 +98,39 @@ public class DrawingBox extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        timeline = new Timeline(new KeyFrame(Duration.seconds(0.17), e -> {
+        timeline = new Timeline(new KeyFrame(Duration.seconds(1.2), e -> {
             updateGrid();
             createGrid(group);
             generation++;
             generationCounter.setText("Generation: " + generation);
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
     }
 
     private void initializeGrid() {
         for (int x = 0; x < X; x++) {
             for (int y = 0; y < Y; y++) {
                 for (int z = 0; z < Z; z++) {
-                    // grid[x][y][z] = Math.random() < 0.01; // Randomly set some cells to be alive
+                    grid[x][y][z] = Math.random() < 0.01; // Randomly set some cells to be alive
                 }
             }
         }
 
-        grid[(X / 2)][(Y / 2) + 2][(Z / 2)] = true;
-        grid[(X / 2) + 1][Y / 2 + 2][(Z / 2)] = true;
-        grid[(X / 2) - 1][Y / 2 + 2][(Z / 2)] = true;
+        grid[(X / 2)+1][(Y / 2) + 2][(Z / 2)] = true;
+        grid[(X / 2)  ][(Y / 2) + 2][(Z / 2)] = true;
+        grid[(X / 2)-1][(Y / 2) + 2][(Z / 2)] = true;
+
+        grid[(X / 2)+1][(Y / 2) - 2][(Z / 2)] = true;
+        grid[(X / 2)  ][(Y / 2) - 2][(Z / 2)] = true;
+        grid[(X / 2)-1][(Y / 2) - 2][(Z / 2)] = true;
+
+        grid[(X / 2) + 2][(Y / 2) + 1][(Z / 2)] = true;
+        grid[(X / 2) + 2][(Y / 2)    ][(Z / 2)] = true;
+        grid[(X / 2) + 2][(Y / 2) - 1][(Z / 2)] = true;
+
+        grid[(X / 2) - 2][(Y / 2) + 1][(Z / 2)] = true;
+        grid[(X / 2) - 2][(Y / 2)    ][(Z / 2)] = true;
+        grid[(X / 2) - 2][(Y / 2) - 1][(Z / 2)] = true;
 
     }
 
@@ -129,9 +140,9 @@ public class DrawingBox extends Application {
                 for (int z = 0; z < Z; z++) {
                     int aliveNeighbors = countAliveNeighbors(x, y, z);
                     if (grid[x][y][z]) {
-                        newGrid[x][y][z] = aliveNeighbors == 2 || aliveNeighbors == 3;
+                        newGrid[x][y][z] = aliveNeighbors == 5 || aliveNeighbors == 6;
                     } else {
-                        newGrid[x][y][z] = aliveNeighbors == 3;
+                        newGrid[x][y][z] = aliveNeighbors == 4;
                     }
                 }
             }
@@ -169,8 +180,9 @@ public class DrawingBox extends Application {
                     if (grid[x][y][z]) {
                         Box box = new Box(SMALL_BOX_SIZE, SMALL_BOX_SIZE, SMALL_BOX_SIZE);
                         PhongMaterial material = new PhongMaterial();
-                        material.setDiffuseColor(Color.BLACK);
-                        // material.setSpecularColor(Color.DARKBLUE);
+                        material.setDiffuseColor(Color.RED);
+                        //material.setDiffuseMap(new javafx.scene.image.Image("./brick.jpg"));
+                        //material.setSpecularColor(Color.GRAY);
                         box.setMaterial(material);
                         box.setTranslateX(x * (SMALL_BOX_SIZE) - (X * (SMALL_BOX_SIZE) / 2));
                         box.setTranslateY(y * (SMALL_BOX_SIZE) - (Y * (SMALL_BOX_SIZE) / 2));
