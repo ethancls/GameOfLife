@@ -5,8 +5,6 @@ import java.awt.event.KeyListener;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import javafx.css.Rule;
-
 @SuppressWarnings("unused")
 public class Main {
 
