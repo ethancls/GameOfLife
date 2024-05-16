@@ -1,0 +1,20 @@
+cmake_minimum_required(VERSION 3.29)
+
+find_package(Java REQUIRED)
+include(UseJava)
+
+enable_testing()
+
+project (GameOfLife)
+
+set(CMAKE_JAVA_COMPILE_FLAGS "-source" "1.8" "-target" "1.8")
+
+add_jar(GameOfLife Tree.java Rules.java  Main.java)
+
+get_target_property(_jarFile GameOfLife JAR_FILE)
+get_target_property(_classDir GameOfLife CLASSDIR)
+
+message(STATUS "Jar file ${_jarFile}")
+message(STATUS "Class compiled to ${_classDir}")
+
+add_test(NAME TestGameOfLife COMMAND ${Java_JAVA_EXECUTABLE} -cp ${_jarFile} GameOfLife)

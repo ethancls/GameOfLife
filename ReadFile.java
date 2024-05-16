@@ -1,4 +1,5 @@
-public class ReadFile {
+public class ReadFile 
+{
     /* Read char if letter G voisiage sinon operateur 
     puis lire jusqu'a la parentèse, espace ignoré, 
     chiffre jusqu'a une virgule ou une parenthese, 
@@ -6,7 +7,6 @@ public class ReadFile {
     
     ADD(8, SUB(3, MUL(4, 7))) , si erreur exception formule incorrecte
     
-    recursive 
 
     if (leaf is const or voisinage G**)
     {

@@ -27,9 +27,9 @@ public class DrawingBox extends Application {
 
     private static final int WIDTH = 1300;
     private static final int HEIGHT = 1000;
-    private static final int X = 300;
-    private static final int Y = 300;
-    private static final int Z = 1;
+    private static final int X = 30;
+    private static final int Y = 50;
+    private static final int Z = 10;
     private static final int SMALL_BOX_SIZE = 5;
     private boolean[][][] grid = new boolean[X][Y][Z];
     private boolean[][][] newGrid = new boolean[X][Y][Z];
@@ -112,7 +112,7 @@ public class DrawingBox extends Application {
         for (int x = 0; x < X; x++) {
             for (int y = 0; y < Y; y++) {
                 for (int z = 0; z < Z; z++) {
-                    grid[x][y][z] = Math.random() < 0.1;  // Randomly set some cells to be alive
+                    grid[x][y][z] = Math.random() < 0.01;  // Randomly set some cells to be alive
                 }
             }
         }
