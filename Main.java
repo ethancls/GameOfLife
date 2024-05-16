@@ -4,23 +4,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.application.Application;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.scene.*;
-import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.PhongMaterial;
-import javafx.scene.shape.Box;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Transform;
-import javafx.stage.Stage;
-import javafx.util.Duration;
 
 @SuppressWarnings("unused")
 public class Main {
@@ -32,12 +15,12 @@ public class Main {
         Grid_ND grid = new Grid_ND(rows, cols);
 
         for (int i = 0; i < rows * cols * 0.5; i++)
-         {
-         grid.getCell(random.nextInt(rows), random.nextInt(cols)).setValue(true);
-         }
+        {
+            //grid.getCell(random.nextInt(rows), random.nextInt(cols)).setValue(true);
+        }
          
 
-         /*for(int i = -4; i < 2; i++)
+         for(int i = -4; i < 2; i++)
          {
                 for(int j = -4; j < -2; j++)
                 {
@@ -67,7 +50,7 @@ public class Main {
                 {
                     grid.getCell(rows/2 - i, cols/2 - j).setValue(true);
                 }
-         }*/
+         }
          
          
          
@@ -154,8 +137,8 @@ public class Main {
 
         Grid_ND new_grid = new Grid_ND(rows, cols);
 
-        for (int i = 1; i < rows - 1; i++) {
-            for (int j = 1; j < cols - 1; j++) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
                 TreeNode compterG0 = new COMPTER(grid, "G0", i, j);
                 TreeNode compterG8 = new COMPTER(grid, "G8*", i, j);
 

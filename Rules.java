@@ -120,8 +120,7 @@ class COMPTER extends TreeNode {
         this.neighbors = Neighborhoods.getNeighborhoodByName(voisinage).getNeighbors(position);
     }
 
-    
-    // verifier voisinage en fonction de la grid si en 1D 2D 3D ou plus avec
+    // verifier voisinage en fonction de la grid si en 1D 2D 3D ou plus avec // pas a faire selon m.chausard
     // grid.getDimensions().lenght!!
     // out of bounds exception
 
@@ -131,8 +130,12 @@ class COMPTER extends TreeNode {
         for (int[] neighbor : neighbors) {
             // System.out.println("Neighbor: " + neighbor[0] + ", " + neighbor[1]);
             // System.out.println("Value: " + grid.getCell(neighbor).getCellValue());
-            if (grid.getCell(neighbor).getCellValue() == true) {
-                liveNeighbors++;
+            try {
+                if (grid.getCell(neighbor).getCellValue() == true) {
+                    liveNeighbors++;
+                }
+            } catch (ArrayIndexOutOfBoundsException e) {
+                // System.out.println("Out of bounds");
             }
         }
         return liveNeighbors;
