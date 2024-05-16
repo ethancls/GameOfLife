@@ -1,3 +1,7 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class ReadFile 
 {
     /* Read char if letter G voisiage sinon operateur 
@@ -18,5 +22,34 @@ public class ReadFile
     }
     */
 
+    public void ParseFile(String path)
+    {
+        try 
+        {
+			FileReader fileReader = new FileReader(path);
+			BufferedReader reader = new BufferedReader(fileReader);
+			
+			String line = reader.readLine();
+			
+			while (line != null) {
+				
+				System.out.println(line);
+
+                // Parsing
+
+
+				line = reader.readLine();
+			}
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+
+    public static void main(String[] args) 
+    {
+        ReadFile readFile = new ReadFile();
+        readFile.ParseFile("./configs/ex.txt");
+    }
 }
 

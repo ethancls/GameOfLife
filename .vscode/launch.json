@@ -3,6 +3,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "ReadFile",
+            "request": "launch",
+            "mainClass": "ReadFile",
+            "projectName": "GameOfLife_4dc4b19b"
+        },
+        {
+            "type": "java",
             "name": "Main",
             "request": "launch",
             "mainClass": "Main",
