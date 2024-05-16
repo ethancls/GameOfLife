@@ -5,6 +5,8 @@ import java.awt.event.KeyListener;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import javafx.css.Rule;
+
 @SuppressWarnings("unused")
 public class Main {
 
@@ -16,7 +18,7 @@ public class Main {
 
         for (int i = 0; i < rows * cols * 0.5; i++)
         {
-            //grid.getCell(random.nextInt(rows), random.nextInt(cols)).setValue(true);
+            grid.getCell(random.nextInt(rows), random.nextInt(cols)).setValue(true);
         }
          
 

@@ -121,8 +121,6 @@ class COMPTER extends TreeNode {
     }
 
     // verifier voisinage en fonction de la grid si en 1D 2D 3D ou plus avec // pas a faire selon m.chausard
-    // grid.getDimensions().lenght!!
-    // out of bounds exception
 
     @Override
     int getValue() {
@@ -136,6 +134,7 @@ class COMPTER extends TreeNode {
                 }
             } catch (ArrayIndexOutOfBoundsException e) {
                 // System.out.println("Out of bounds");
+                // Si on est en dehors, les cellules sont mortes
             }
         }
         return liveNeighbors;

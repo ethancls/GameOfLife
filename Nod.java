@@ -1,5 +1,5 @@
 abstract class TreeNode {
-    abstract int getValue();
+    abstract int getValue(); // 2 Nodes : operators and constants (leafs) so we have to make an abstract to not differentiate a constnode and operatornode
 }
 
 class ConstNode extends TreeNode {
@@ -20,22 +20,21 @@ abstract class OperatorNode extends TreeNode {
     protected TreeNode middle;
     protected TreeNode right;
 
-    public OperatorNode(TreeNode left, TreeNode middle, TreeNode right) {
+    public OperatorNode(TreeNode left, TreeNode middle, TreeNode right) 
+    {
         this.left = left;
         this.middle = middle;
         this.right = right;
     }
 
-    public OperatorNode(TreeNode left, TreeNode right) {
+    public OperatorNode(TreeNode left, TreeNode right) 
+    {
         this(left, null, right);
     }
 
-    public OperatorNode(TreeNode left) {
+    public OperatorNode(TreeNode left) 
+    {
         this(left, null, null);
-    }
-
-    public OperatorNode() {
-        this(null, null, null);
     }
 
     @Override
