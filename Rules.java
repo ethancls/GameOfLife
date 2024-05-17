@@ -141,6 +141,54 @@ class COMPTER extends TreeNode {
     }
 }
 
+class Rule3D {
+
+    public boolean isAlive(Grid_ND grid, int ...position) 
+    {
+        int x = position[0];
+        int y = position[1];
+        int z = position[2];
+        TreeNode compterG0 = new COMPTER(grid, "G0", x, y, z);
+        TreeNode compterG26 = new COMPTER(grid, "G26*", x, y, z);
+
+        TreeNode eqG0_1 = new EQ(compterG0, new ConstNode(1)); // Mort ou vivant
+        TreeNode Eq_5 = new EQ(compterG26, new ConstNode(5)); // 5 voisins
+        TreeNode Eq_6 = new EQ(compterG26, new ConstNode(6)); // 6 voisins
+        TreeNode Eq_4 = new EQ(compterG26, new ConstNode(4)); // 4 voisins
+        TreeNode Ou_2 = new OU(Eq_5, Eq_6); // 2 ou 3 voisins
+
+        TreeNode siSupEqG8_4 = new SI(Ou_2, new ConstNode(1), new ConstNode(0)); // 5 ou 6 voisins ? 1 : 0
+        TreeNode siEqG8_2 = new SI(Eq_4, new ConstNode(1), new ConstNode(0)); // 4 voisins ? 1 : 0
+
+        TreeNode mainSi = new SI(eqG0_1, siSupEqG8_4, siEqG8_2);
+
+        return mainSi.getValue() == 1;
+    }
+}
+
+class Rule2D {
+
+    public boolean isAlive(Grid_ND grid, int ...position) 
+    {
+        int x = position[0];
+        int y = position[1];
+        TreeNode compterG0 = new COMPTER(grid, "G0", x, y);
+        TreeNode compterG8 = new COMPTER(grid, "G8*", x, y);
+        
+        TreeNode eqG0_1 = new EQ(compterG0, new ConstNode(1)); // Mort ou vivant
+        TreeNode EqG8_3 = new EQ(compterG8, new ConstNode(3)); // 3 voisins
+        TreeNode EqG8_2 = new EQ(compterG8, new ConstNode(2)); // 2 voisins
+        TreeNode Ou_2 = new OU(EqG8_2, EqG8_3); // 2 ou 3 voisins
+
+        TreeNode siSupEqG8_4 = new SI(Ou_2, new ConstNode(1), new ConstNode(0)); // 2 ou 3 voisins ? 1 : 0
+        TreeNode siEqG8_2 = new SI(EqG8_3, new ConstNode(1), new ConstNode(0)); // 3 voisins ? 1 : 0
+
+        TreeNode mainSi = new SI(eqG0_1, siSupEqG8_4, siEqG8_2);
+
+        return mainSi.getValue() == 1;
+    }
+}
+
 public class Rules {
 
     public static int evaluate(TreeNode tree) {
@@ -154,7 +202,7 @@ public class Rules {
         Grid_ND grid = new Grid_ND(rows, cols);
 
         for (int i = 0; i < rows * cols * 0.25; i++) {
-            grid.getCell(random.nextInt(rows), random.nextInt(cols)).setValue(true);
+            grid.getCell(random.nextInt(rows), random.nextInt(cols)).setCellValue(true);
         }
        
         int[] position = { 5, 5 };

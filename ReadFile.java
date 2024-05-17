@@ -36,6 +36,9 @@ public class ReadFile
 				System.out.println(line);
 
                 // Parsing
+                
+
+
 
 
 				line = reader.readLine();
@@ -45,6 +48,39 @@ public class ReadFile
         {
 			e.printStackTrace();
 		}
+    }
+
+    public TreeNode createNode(String buffer)
+    {
+        TreeNode node = null;
+        if(isNumeric(buffer) == true)
+        {
+            // Create a node with the value
+            node = new ConstNode(Integer.parseInt(buffer));
+        }
+        else
+        {
+            // Create a node with the operator
+        }
+        return node;
+    }
+
+    @SuppressWarnings("unused")
+    public static boolean isNumeric(String buffer) 
+    {
+        if (buffer == null) 
+        {
+            return false;
+        }
+        try 
+        {
+            int d = Integer.parseInt(buffer);
+        } 
+        catch (NumberFormatException nfe) 
+        {
+            return false;
+        }
+        return true;
     }
 
     public static void main(String[] args) 

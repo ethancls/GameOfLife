@@ -11,7 +11,7 @@ public class Grid_NDTest {
 
         for (int i = 0; i < rows*cols*0.25; i++) 
         {
-            grid.getCell(random.nextInt(rows), random.nextInt(cols)).setValue(true);
+            grid.getCell(random.nextInt(rows), random.nextInt(cols)).setCellValue(true);
         }
 
         GrilleGraphique Grid_2D = new GrilleGraphique(grid.getDimensions()[0], grid.getDimensions()[1], 12);

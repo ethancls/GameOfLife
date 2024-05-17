@@ -6,7 +6,7 @@ public class Cell
     {
         value = false; // Default value for a cell
     }
-    public void setValue(boolean value)
+    public void setCellValue(boolean value)
     {
         this.value = value;
     }

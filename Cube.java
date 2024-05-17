@@ -1,3 +1,6 @@
+import java.util.Random;
+
+// 3D
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -19,22 +22,41 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /* COMMANDS TO COMPILE AND RUN
-javac --module-path ./javafx/lib --add-modules javafx.controls,javafx.fxml DrawingBox.java
-java --module-path ./javafx/lib --add-modules javafx.controls,javafx.fxml DrawingBox  
+javac --module-path ./javafx/lib --add-modules javafx.controls,javafx.fxml Cube.java
+java --module-path ./javafx/lib --add-modules javafx.controls,javafx.fxml Cube  
 */
 
-public class DrawingBox extends Application {
+public class Cube extends Application {
 
-    private static final int WIDTH = 1300;
-    private static final int HEIGHT = 1000;
-    private static final int X = 30;
-    private static final int Y = 30;
-    private static final int Z = 30;
-    private static final int SMALL_BOX_SIZE = 5;
-    private boolean[][][] grid = new boolean[X][Y][Z];
-    private boolean[][][] newGrid = new boolean[X][Y][Z];
+    private final int WIDTH = 1300;
+    private final int HEIGHT = 1000;
+    private int X = 50;
+    private int Y = 50;
+    private int Z = 50;
+    private int SMALL_BOX_SIZE = 5;
+    Grid_ND grid;
     private int generation = 0;
     private Timeline timeline;
+
+    public Cube() {
+        this(new Grid_ND(50, 50, 50));
+    }
+
+    public Cube(Grid_ND grid) {
+        try 
+        {
+            X = grid.getDimensions()[0];
+            Y = grid.getDimensions()[1];
+            Z = grid.getDimensions()[2];
+            this.grid = grid;
+        } 
+        catch (Exception e)
+        {
+            System.out.println("Error: " + e);
+            System.out.println("Setting default values for X, Y, Z");
+            this.grid = new Grid_ND(X, Y, Z);
+        }
+    }
 
     private double anchorX, anchorY;
     private double anchorAngleX = 0;
@@ -46,11 +68,11 @@ public class DrawingBox extends Application {
     public void start(Stage primaryStage) {
         SmartGroup group = new SmartGroup();
         initializeGrid();
-        createGrid(group);
+        createCube(group);
 
         Camera camera = new PerspectiveCamera();
         SubScene subScene = new SubScene(group, WIDTH, HEIGHT, true, SceneAntialiasing.BALANCED);
-        subScene.setFill(Color.WHITE);
+        subScene.setFill(Color.BLACK);
         subScene.setCamera(camera);
 
         Text generationCounter = new Text();
@@ -69,8 +91,8 @@ public class DrawingBox extends Application {
 
         StackPane root = new StackPane();
         root.getChildren().addAll(subScene, generationCounter, buttons);
-        StackPane.setAlignment(generationCounter, javafx.geometry.Pos.TOP_LEFT);
-        StackPane.setAlignment(buttons, javafx.geometry.Pos.BOTTOM_LEFT);
+        StackPane.setAlignment(generationCounter, javafx.geometry.Pos.BOTTOM_LEFT);
+        StackPane.setAlignment(buttons, javafx.geometry.Pos.TOP_LEFT);
 
         Scene scene = new Scene(root, WIDTH, HEIGHT);
 
@@ -98,9 +120,9 @@ public class DrawingBox extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        timeline = new Timeline(new KeyFrame(Duration.seconds(1.2), e -> {
-            updateGrid();
-            createGrid(group);
+        timeline = new Timeline(new KeyFrame(Duration.seconds(0.75), e -> {
+            updateCube();
+            createCube(group);
             generation++;
             generationCounter.setText("Generation: " + generation);
         }));
@@ -108,81 +130,67 @@ public class DrawingBox extends Application {
     }
 
     private void initializeGrid() {
+        
         for (int x = 0; x < X; x++) {
             for (int y = 0; y < Y; y++) {
                 for (int z = 0; z < Z; z++) {
-                    grid[x][y][z] = Math.random() < 0.01; // Randomly set some cells to be alive
+                    if(Math.random() < 0.03)
+                    {
+                       //grid.getCell(x,y,z).setCellValue(true);
+                    }
                 }
             }
         }
 
-        grid[(X / 2)+1][(Y / 2) + 2][(Z / 2)] = true;
-        grid[(X / 2)  ][(Y / 2) + 2][(Z / 2)] = true;
-        grid[(X / 2)-1][(Y / 2) + 2][(Z / 2)] = true;
+        grid.getCell(X/2+1,Y/2+2,Z/2).setCellValue(true);
+        grid.getCell(X/2,Y/2+2,Z/2).setCellValue(true);
+        grid.getCell(X/2-1,Y/2+2,Z/2).setCellValue(true);
 
-        grid[(X / 2)+1][(Y / 2) - 2][(Z / 2)] = true;
-        grid[(X / 2)  ][(Y / 2) - 2][(Z / 2)] = true;
-        grid[(X / 2)-1][(Y / 2) - 2][(Z / 2)] = true;
+        grid.getCell(X/2+1,Y/2-2,Z/2).setCellValue(true);
+        grid.getCell(X/2,Y/2-2,Z/2).setCellValue(true);
+        grid.getCell(X/2-1,Y/2-2,Z/2).setCellValue(true);
 
-        grid[(X / 2) + 2][(Y / 2) + 1][(Z / 2)] = true;
-        grid[(X / 2) + 2][(Y / 2)    ][(Z / 2)] = true;
-        grid[(X / 2) + 2][(Y / 2) - 1][(Z / 2)] = true;
+        grid.getCell(X/2+2,Y/2+1,Z/2).setCellValue(true);
+        grid.getCell(X/2+2,Y/2,Z/2).setCellValue(true);
+        grid.getCell(X/2+2,Y/2-1,Z/2).setCellValue(true);
 
-        grid[(X / 2) - 2][(Y / 2) + 1][(Z / 2)] = true;
-        grid[(X / 2) - 2][(Y / 2)    ][(Z / 2)] = true;
-        grid[(X / 2) - 2][(Y / 2) - 1][(Z / 2)] = true;
+        grid.getCell(X/2-2,Y/2+1,Z/2).setCellValue(true);
+        grid.getCell(X/2-2,Y/2,Z/2).setCellValue(true);
+        grid.getCell(X/2-2,Y/2-1,Z/2).setCellValue(true);
 
     }
 
-    private void updateGrid() {
+    private void updateCube() 
+    {
+        Grid_ND new_grid = new Grid_ND(grid.getDimensions());
+
         for (int x = 0; x < X; x++) {
             for (int y = 0; y < Y; y++) {
                 for (int z = 0; z < Z; z++) {
-                    int aliveNeighbors = countAliveNeighbors(x, y, z);
-                    if (grid[x][y][z]) {
-                        newGrid[x][y][z] = aliveNeighbors == 5 || aliveNeighbors == 6;
+                    if (new Rule3D().isAlive(grid, x,y,z)) {
+                        new_grid.getCell(x, y, z).setCellValue(true);
                     } else {
-                        newGrid[x][y][z] = aliveNeighbors == 4;
+                        new_grid.getCell(x, y, z).setCellValue(false);
                     }
                 }
             }
         }
-        boolean[][][] temp = grid;
-        grid = newGrid;
-        newGrid = temp;
+        Grid_ND temp = grid;
+        grid = new_grid;
+        new_grid = temp;
     }
 
-    private int countAliveNeighbors(int x, int y, int z) {
-        int count = 0;
-        for (int dx = -1; dx <= 1; dx++) {
-            for (int dy = -1; dy <= 1; dy++) {
-                for (int dz = -1; dz <= 1; dz++) {
-                    if (dx == 0 && dy == 0 && dz == 0)
-                        continue;
-                    int nx = x + dx;
-                    int ny = y + dy;
-                    int nz = z + dz;
-                    if (nx >= 0 && nx < X && ny >= 0 && ny < Y && nz >= 0 && nz < Z) {
-                        if (grid[nx][ny][nz])
-                            count++;
-                    }
-                }
-            }
-        }
-        return count;
-    }
-
-    private void createGrid(SmartGroup group) {
+    private void createCube(SmartGroup group) {
         group.getChildren().removeIf(node -> node instanceof Box);
         for (int x = 0; x < X; x++) {
             for (int y = 0; y < Y; y++) {
                 for (int z = 0; z < Z; z++) {
-                    if (grid[x][y][z]) {
+                    if (grid.getCell(x,y,z).getCellValue()) {
                         Box box = new Box(SMALL_BOX_SIZE, SMALL_BOX_SIZE, SMALL_BOX_SIZE);
                         PhongMaterial material = new PhongMaterial();
-                        material.setDiffuseColor(Color.rgb(x+150, y+150, z+150));
+                        material.setDiffuseColor(Color.RED);
                         //material.setDiffuseMap(new javafx.scene.image.Image("./brick.jpg"));
-                        material.setSpecularColor(Color.BLACK);
+                        material.setSpecularColor(Color.GREENYELLOW);
                         box.setMaterial(material);
                         box.setTranslateX(x * (SMALL_BOX_SIZE) - (X * (SMALL_BOX_SIZE) / 2));
                         box.setTranslateY(y * (SMALL_BOX_SIZE) - (Y * (SMALL_BOX_SIZE) / 2));
@@ -216,10 +224,6 @@ public class DrawingBox extends Application {
         });
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-
     class SmartGroup extends Group {
 
         Rotate r;
@@ -238,5 +242,9 @@ public class DrawingBox extends Application {
             this.getTransforms().clear();
             this.getTransforms().addAll(t);
         }
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 }
