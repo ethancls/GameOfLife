@@ -12,7 +12,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 //Merci à StackOverflow pour sa précieuse contribution !
 
 @SuppressWarnings("unused")
-public class GrilleGraphique extends JPanel
+public class GFX_GrilleGraphique extends JPanel
 {
 	private int largeur, hauteur, taille_case;
 	
@@ -23,7 +23,7 @@ public class GrilleGraphique extends JPanel
 	 * @param largeur La largeur (en nombre de cases) de la grille affichée.
 	 * @param hauteur La hauteur (en nombre de cases) de la grille affichée.
 	 */
-	public GrilleGraphique(int largeur, int hauteur, int taille_case) 
+	public GFX_GrilleGraphique(int largeur, int hauteur, int taille_case) 
 	{
 		this.largeur = largeur;
 		this.hauteur = hauteur;

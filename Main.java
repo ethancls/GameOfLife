@@ -31,7 +31,7 @@ public class Main {
         int rows = 50;
         int cols = 50;
         Random random = new Random();
-        Grid_ND grid = new Grid_ND(rows, cols);
+        STRUCT_Grid_ND grid = new STRUCT_Grid_ND(rows, cols);
 
         for (int i = 0; i < rows * cols * 0.5; i++) {
             // grid.getCell(random.nextInt(rows), random.nextInt(cols)).setValue(true);
@@ -61,7 +61,7 @@ public class Main {
             }
         }
 
-        GrilleGraphique Grid_2D = new GrilleGraphique(grid.getDimensions()[0], grid.getDimensions()[1], 12);
+        GFX_GrilleGraphique Grid_2D = new GFX_GrilleGraphique(grid.getDimensions()[0], grid.getDimensions()[1], 12);
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -105,18 +105,18 @@ public class Main {
         Grid_2D.revalidate();
 
         class GridWrapper {
-            private Grid_ND grid;
+            private STRUCT_Grid_ND grid;
             public int GENERATIONS = 0;
 
-            public GridWrapper(Grid_ND grid) {
+            public GridWrapper(STRUCT_Grid_ND grid) {
                 this.grid = grid;
             }
 
-            public Grid_ND getGrid() {
+            public STRUCT_Grid_ND getGrid() {
                 return grid;
             }
 
-            public void setGrid(Grid_ND grid) {
+            public void setGrid(STRUCT_Grid_ND grid) {
                 this.grid = grid;
             }
         }
@@ -139,11 +139,11 @@ public class Main {
         
     }
 
-    private static Grid_ND run2DSimulationStep(Grid_ND grid, GrilleGraphique Grid_2D) {
+    private static STRUCT_Grid_ND run2DSimulationStep(STRUCT_Grid_ND grid, GFX_GrilleGraphique Grid_2D) {
         int rows = grid.getDimensions()[0];
         int cols = grid.getDimensions()[1];
 
-        Grid_ND new_grid = new Grid_ND(rows, cols);
+        STRUCT_Grid_ND new_grid = new STRUCT_Grid_ND(rows, cols);
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -170,9 +170,9 @@ public class Main {
         return new_grid;
     }
 
-    private static void run3DSimulation(Grid_ND grid) 
+    private static void run3DSimulation(STRUCT_Grid_ND grid) 
     {
-        Cube cube = new Cube(grid);
-        Application.launch(Cube.class);
+        GFX_Cube cube = new GFX_Cube(grid);
+        Application.launch(GFX_Cube.class);
     }
 }

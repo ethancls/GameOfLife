@@ -1,8 +1,8 @@
-public class Cell
+public class STRUCT_Cell
 {
     private boolean value;
 
-    public Cell() 
+    public STRUCT_Cell() 
     {
         value = false; // Default value for a cell
     }

@@ -1,20 +1,20 @@
 import java.util.Random;
 import java.awt.Color;
 
-public class Grid_NDTest {
+public class TEST_Grid_NDTest {
     public static void main(String[] args) {
 
         int rows = 50;
         int cols = 50;
         Random random = new Random();
-        Grid_ND grid = new Grid_ND(rows, cols);
+        STRUCT_Grid_ND grid = new STRUCT_Grid_ND(rows, cols);
 
         for (int i = 0; i < rows*cols*0.25; i++) 
         {
             grid.getCell(random.nextInt(rows), random.nextInt(cols)).setCellValue(true);
         }
 
-        GrilleGraphique Grid_2D = new GrilleGraphique(grid.getDimensions()[0], grid.getDimensions()[1], 12);
+        GFX_GrilleGraphique Grid_2D = new GFX_GrilleGraphique(grid.getDimensions()[0], grid.getDimensions()[1], 12);
 
         int i, j;
         for (i = 0; i < rows; i++) {

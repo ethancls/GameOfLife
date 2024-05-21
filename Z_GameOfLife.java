@@ -3,14 +3,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-public class GameOfLife extends JFrame {
+public class Z_GameOfLife extends JFrame {
     private final int GRID_SIZE = 150;
     private final int CELL_SIZE = 5;
     private boolean[][] cells = new boolean[GRID_SIZE][GRID_SIZE];
     private JPanel gridPanel;
     private Timer timer;
 
-    public GameOfLife() {
+    public Z_GameOfLife() {
         setTitle("Game of Life");
         setSize(GRID_SIZE * CELL_SIZE + 20, GRID_SIZE * CELL_SIZE + 60);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -228,7 +228,7 @@ public class GameOfLife extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new GameOfLife().setVisible(true);
+                new Z_GameOfLife().setVisible(true);
             }
         });
     }

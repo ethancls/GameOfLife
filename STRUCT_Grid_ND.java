@@ -1,40 +1,40 @@
-public class Grid_ND 
+public class STRUCT_Grid_ND 
 {
     private int[] dimensions; // number of dimensions V = (..., z, y, x) dans R^N
     private Object[] grid; // tab of grid or cells
 
-    public Grid_ND(int... sizes)
+    public STRUCT_Grid_ND(int... sizes)
     {
         dimensions = sizes;
         int N = sizes[0]; // Dimension size
 
         if (sizes.length == 1) 
         {
-            grid = new Cell[N]; // Derniere dim tab cell
+            grid = new STRUCT_Cell[N]; // Derniere dim tab cell
             for (int i = 0; i < N; i++) 
             {
-                grid[i] = new Cell();
+                grid[i] = new STRUCT_Cell();
             }
         } 
         else 
         {
-            grid = new Grid_ND[N];
+            grid = new STRUCT_Grid_ND[N];
             int[] newSizes = new int[sizes.length - 1];
             System.arraycopy(sizes, 1, newSizes, 0, sizes.length - 1);
             for (int i = 0; i < N; i++) {
-                grid[i] = new Grid_ND(newSizes); // Recursive sous-grid
+                grid[i] = new STRUCT_Grid_ND(newSizes); // Recursive sous-grid
             }
         }
     }
 
     // Method to get the cell from a position
-    public Cell getCell(int... pos) {
+    public STRUCT_Cell getCell(int... pos) {
         if (pos.length == 1) {
-            return ((Cell) grid[pos[0]]); // Get cell
+            return ((STRUCT_Cell) grid[pos[0]]); // Get cell
         } else {
             int[] newPos = new int[pos.length - 1];
             System.arraycopy(pos, 1, newPos, 0, pos.length - 1);
-            return ((Grid_ND) grid[pos[0]]).getCell(newPos); // Recursively get value from sub-grid
+            return ((STRUCT_Grid_ND) grid[pos[0]]).getCell(newPos); // Recursively get value from sub-grid
         }
     }
 

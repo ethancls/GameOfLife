@@ -26,23 +26,23 @@ javac --module-path ./javafx/lib --add-modules javafx.controls,javafx.fxml Cube.
 java --module-path ./javafx/lib --add-modules javafx.controls,javafx.fxml Cube  
 */
 
-public class Cube extends Application {
+public class GFX_Cube extends Application {
 
     private final int WIDTH = 1300;
     private final int HEIGHT = 1000;
-    private int X = 50;
-    private int Y = 50;
-    private int Z = 50;
+    private static int X = 15;
+    private static int Y = 15;
+    private static int Z = 15;
     private int SMALL_BOX_SIZE = 5;
-    Grid_ND grid;
+    STRUCT_Grid_ND grid;
     private int generation = 0;
     private Timeline timeline;
 
-    public Cube() {
-        this(new Grid_ND(50, 50, 50));
+    public GFX_Cube() {
+        this(new STRUCT_Grid_ND(X, Y, Z));
     }
 
-    public Cube(Grid_ND grid) {
+    public GFX_Cube(STRUCT_Grid_ND grid) {
         try 
         {
             X = grid.getDimensions()[0];
@@ -54,7 +54,7 @@ public class Cube extends Application {
         {
             System.out.println("Error: " + e);
             System.out.println("Setting default values for X, Y, Z");
-            this.grid = new Grid_ND(X, Y, Z);
+            this.grid = new STRUCT_Grid_ND(X, Y, Z);
         }
     }
 
@@ -134,15 +134,15 @@ public class Cube extends Application {
         for (int x = 0; x < X; x++) {
             for (int y = 0; y < Y; y++) {
                 for (int z = 0; z < Z; z++) {
-                    if(Math.random() < 0.03)
+                    if(Math.random() < 0.1)
                     {
-                       //grid.getCell(x,y,z).setCellValue(true);
+                       grid.getCell(x,y,z).setCellValue(true);
                     }
                 }
             }
         }
 
-        grid.getCell(X/2+1,Y/2+2,Z/2).setCellValue(true);
+        /*grid.getCell(X/2+1,Y/2+2,Z/2).setCellValue(true);
         grid.getCell(X/2,Y/2+2,Z/2).setCellValue(true);
         grid.getCell(X/2-1,Y/2+2,Z/2).setCellValue(true);
 
@@ -156,13 +156,13 @@ public class Cube extends Application {
 
         grid.getCell(X/2-2,Y/2+1,Z/2).setCellValue(true);
         grid.getCell(X/2-2,Y/2,Z/2).setCellValue(true);
-        grid.getCell(X/2-2,Y/2-1,Z/2).setCellValue(true);
+        grid.getCell(X/2-2,Y/2-1,Z/2).setCellValue(true);*/
 
     }
 
     private void updateCube() 
     {
-        Grid_ND new_grid = new Grid_ND(grid.getDimensions());
+        STRUCT_Grid_ND new_grid = new STRUCT_Grid_ND(grid.getDimensions());
 
         for (int x = 0; x < X; x++) {
             for (int y = 0; y < Y; y++) {
@@ -175,7 +175,7 @@ public class Cube extends Application {
                 }
             }
         }
-        Grid_ND temp = grid;
+        STRUCT_Grid_ND temp = grid;
         grid = new_grid;
         new_grid = temp;
     }

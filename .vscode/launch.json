@@ -3,6 +3,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Z_GameOfLife",
+            "request": "launch",
+            "mainClass": "Z_GameOfLife",
+            "projectName": "GameOfLife_4dc4b19b"
+        },
+        {
+            "type": "java",
             "name": "Cube",
             "request": "launch",
             "mainClass": "Cube",

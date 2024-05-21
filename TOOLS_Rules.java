@@ -112,12 +112,12 @@ class SI extends OperatorNode {
 }
 
 class COMPTER extends TreeNode {
-    private final Grid_ND grid;
+    private final STRUCT_Grid_ND grid;
     private final List<int[]> neighbors;
 
-    public COMPTER(Grid_ND grid, String voisinage, int... position) {
+    public COMPTER(STRUCT_Grid_ND grid, String voisinage, int... position) {
         this.grid = grid;
-        this.neighbors = Neighborhoods.getNeighborhoodByName(voisinage).getNeighbors(position);
+        this.neighbors = TOOLS_Neighborhoods.getNeighborhoodByName(voisinage).getNeighbors(position);
     }
 
     // verifier voisinage en fonction de la grid si en 1D 2D 3D ou plus avec // pas a faire selon m.chausard
@@ -143,7 +143,7 @@ class COMPTER extends TreeNode {
 
 class Rule3D {
 
-    public boolean isAlive(Grid_ND grid, int ...position) 
+    public boolean isAlive(STRUCT_Grid_ND grid, int ...position) 
     {
         int x = position[0];
         int y = position[1];
@@ -168,7 +168,7 @@ class Rule3D {
 
 class Rule2D {
 
-    public boolean isAlive(Grid_ND grid, int ...position) 
+    public boolean isAlive(STRUCT_Grid_ND grid, int ...position) 
     {
         int x = position[0];
         int y = position[1];
@@ -189,7 +189,7 @@ class Rule2D {
     }
 }
 
-public class Rules {
+public class TOOLS_Rules {
 
     public static int evaluate(TreeNode tree) {
         return tree.getValue();
@@ -199,7 +199,7 @@ public class Rules {
         int rows = 11;
         int cols = 11;
         Random random = new Random();
-        Grid_ND grid = new Grid_ND(rows, cols);
+        STRUCT_Grid_ND grid = new STRUCT_Grid_ND(rows, cols);
 
         for (int i = 0; i < rows * cols * 0.25; i++) {
             grid.getCell(random.nextInt(rows), random.nextInt(cols)).setCellValue(true);

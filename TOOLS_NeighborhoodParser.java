@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NeighborhoodParser {
+public class TOOLS_NeighborhoodParser {
 
     public static void parseFile(String filename) throws IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
@@ -16,7 +16,7 @@ public class NeighborhoodParser {
                     String name = parts[0].trim();
                     String coordinatesPart = parts[1].trim();
                     List<int[]> neighbors = parseCoordinates(coordinatesPart);
-                    Neighborhoods.addTemporaryCustomNeighborhood(name, neighbors);
+                    TOOLS_Neighborhoods.addCustomNeighborhood(name, neighbors);
                 }
             }
         }

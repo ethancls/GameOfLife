@@ -2,7 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class ReadFile 
+public class TOOLS_ReadFile 
 {
     /* Read char if letter G voisiage sinon operateur 
     puis lire jusqu'a la parentèse, espace ignoré, 
@@ -85,7 +85,7 @@ public class ReadFile
 
     public static void main(String[] args) 
     {
-        ReadFile readFile = new ReadFile();
+        TOOLS_ReadFile readFile = new TOOLS_ReadFile();
         readFile.ParseFile("./configs/ex.txt");
     }
 }

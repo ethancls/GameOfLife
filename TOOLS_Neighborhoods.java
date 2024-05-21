@@ -8,7 +8,7 @@ interface Neighborhood {
     List<int[]> getNeighbors(int... position);
 }
 
-public class Neighborhoods {
+public class TOOLS_Neighborhoods {
     private static final Map<String, Neighborhood> customNeighborhoods = new HashMap<>();
 
     // Predefined neighborhoods
@@ -77,11 +77,6 @@ public class Neighborhoods {
             .filter(neighbor -> !java.util.Arrays.equals(neighbor, position))
             .collect(Collectors.toList());
 
-    // Method to add custom neighborhoods
-    public static void addCustomNeighborhood(String name, Neighborhood neighborhood) {
-        customNeighborhoods.put(name, neighborhood);
-    }
-
     public static Neighborhood getNeighborhoodByName(String name) {
         switch (name) {
             case "G0":
@@ -111,7 +106,7 @@ public class Neighborhoods {
         }
     }
 
-    public static void addTemporaryCustomNeighborhood(String name, List<int[]> neighbors) {
+    public static void addCustomNeighborhood(String name, List<int[]> neighbors) {
         Neighborhood customNeighborhood = position -> {
             List<int[]> absoluteNeighbors = new ArrayList<>();
             for (int[] neighbor : neighbors) {
@@ -123,7 +118,7 @@ public class Neighborhoods {
             }
             return absoluteNeighbors;
         };
-        addCustomNeighborhood(name, customNeighborhood);
+        customNeighborhoods.put(name, customNeighborhood);
     }
 
     public static List<int[]> useCustomNeighborhood(String name, int... position) {
