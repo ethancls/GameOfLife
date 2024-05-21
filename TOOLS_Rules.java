@@ -1,6 +1,8 @@
 import java.util.List;
 import java.util.Random;
 
+import java.awt.Color;
+
 class ET extends OperatorNode {
     public ET(TreeNode left, TreeNode right) {
         super(left, right);
@@ -112,29 +114,37 @@ class SI extends OperatorNode {
 }
 
 class COMPTER extends TreeNode {
-    private final STRUCT_Grid_ND grid;
-    private final List<int[]> neighbors;
+    private static STRUCT_Grid_ND grid;
+    private static int[] position;
+    private String voisinage;
 
-    public COMPTER(STRUCT_Grid_ND grid, String voisinage, int... position) {
-        this.grid = grid;
-        this.neighbors = TOOLS_Neighborhoods.getNeighborhoodByName(voisinage).getNeighbors(position);
+    // Constructor to initialize the 'voisinage' variable
+    public COMPTER(String voisinage) {
+        this.voisinage = voisinage;
     }
 
-    // verifier voisinage en fonction de la grid si en 1D 2D 3D ou plus avec // pas a faire selon m.chausard
+    // Static method to set the grid and position for all COMPTER objects
+    public static void setSettings(STRUCT_Grid_ND grid, int... position) {
+        COMPTER.grid = grid;
+        COMPTER.position = position;
+    }
+
+    // Method to get neighbors based on the current position and voisinage
+    private List<int[]> getNeighbors() {
+        return TOOLS_Neighborhoods.getNeighborhoodByName(voisinage).getNeighbors(position);
+    }
 
     @Override
     int getValue() {
         int liveNeighbors = 0;
+        List<int[]> neighbors = getNeighbors();
         for (int[] neighbor : neighbors) {
-            // System.out.println("Neighbor: " + neighbor[0] + ", " + neighbor[1]);
-            // System.out.println("Value: " + grid.getCell(neighbor).getCellValue());
             try {
-                if (grid.getCell(neighbor).getCellValue() == true) {
+                if (grid.getCell(neighbor).getCellValue()) {
                     liveNeighbors++;
                 }
             } catch (ArrayIndexOutOfBoundsException e) {
-                // System.out.println("Out of bounds");
-                // Si on est en dehors, les cellules sont mortes
+                // If the neighbor is out of bounds, treat it as a dead cell
             }
         }
         return liveNeighbors;
@@ -148,8 +158,11 @@ class Rule3D {
         int x = position[0];
         int y = position[1];
         int z = position[2];
-        TreeNode compterG0 = new COMPTER(grid, "G0", x, y, z);
-        TreeNode compterG26 = new COMPTER(grid, "G26*", x, y, z);
+
+        COMPTER.setSettings(grid, x, y, z);
+        
+        TreeNode compterG0 = new COMPTER("G0");
+        TreeNode compterG26 = new COMPTER("G26*");
 
         TreeNode eqG0_1 = new EQ(compterG0, new ConstNode(1)); // Mort ou vivant
         TreeNode Eq_5 = new EQ(compterG26, new ConstNode(5)); // 5 voisins
@@ -172,8 +185,9 @@ class Rule2D {
     {
         int x = position[0];
         int y = position[1];
-        TreeNode compterG0 = new COMPTER(grid, "G0", x, y);
-        TreeNode compterG8 = new COMPTER(grid, "G8*", x, y);
+        COMPTER.setSettings(grid, x, y);
+        TreeNode compterG0 = new COMPTER("G0");
+        TreeNode compterG8 = new COMPTER("G8*");
         
         TreeNode eqG0_1 = new EQ(compterG0, new ConstNode(1)); // Mort ou vivant
         TreeNode EqG8_3 = new EQ(compterG8, new ConstNode(3)); // 3 voisins
@@ -204,20 +218,21 @@ public class TOOLS_Rules {
         for (int i = 0; i < rows * cols * 0.25; i++) {
             grid.getCell(random.nextInt(rows), random.nextInt(cols)).setCellValue(true);
         }
-       
-        int[] position = { 5, 5 };
+        GFX_GrilleGraphique Grid_2D = new GFX_GrilleGraphique(grid.getDimensions()[0], grid.getDimensions()[1], 12);
 
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid.getCell(i, j).getCellValue()) {
+                    Grid_2D.colorierCase(i, j, Color.BLACK);
+                }
+            }
+        }
+        int[] position = { 5, 5 };
+        COMPTER.setSettings(grid, position);
         // Using COMPTER with the G8 neighborhood
-        TreeNode compterNode = new COMPTER(grid, "G4", position); // pb voisinage si pas 2d
+        TreeNode compterNode = new COMPTER("G8*"); // pb voisinage si pas 2d
 
         int result = evaluate(compterNode);
-        System.out.println("Result: " + result);
-
-        ConstNode val1 = new ConstNode(2);
-        ConstNode val2 = new ConstNode(2);
-        ConstNode val3 = new ConstNode(3);
-        TreeNode node = new SI(val1, val2, val3);
-        result = evaluate(node);
         System.out.println("Result: " + result);
     }
 }

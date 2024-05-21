@@ -3,6 +3,27 @@
     "configurations": [
         {
             "type": "java",
+            "name": "TOOLS_ReadFile",
+            "request": "launch",
+            "mainClass": "TOOLS_ReadFile",
+            "projectName": "GameOfLife_4dc4b19b"
+        },
+        {
+            "type": "java",
+            "name": "GFX_Cube",
+            "request": "launch",
+            "mainClass": "GFX_Cube",
+            "projectName": "GameOfLife_4dc4b19b"
+        },
+        {
+            "type": "java",
+            "name": "TOOLS_Rules",
+            "request": "launch",
+            "mainClass": "TOOLS_Rules",
+            "projectName": "GameOfLife_4dc4b19b"
+        },
+        {
+            "type": "java",
             "name": "Z_GameOfLife",
             "request": "launch",
             "mainClass": "Z_GameOfLife",

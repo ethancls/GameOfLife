@@ -22,10 +22,11 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /* COMMANDS TO COMPILE AND RUN
-javac --module-path ./javafx/lib --add-modules javafx.controls,javafx.fxml Cube.java
-java --module-path ./javafx/lib --add-modules javafx.controls,javafx.fxml Cube  
+javac --module-path ./javafx/lib --add-modules javafx.controls,javafx.fxml GFX_Cube.java
+java --module-path ./javafx/lib --add-modules javafx.controls,javafx.fxml GFX_Cube  
 */
 
+@SuppressWarnings("unused")
 public class GFX_Cube extends Application {
 
     private final int WIDTH = 1300;
@@ -136,13 +137,13 @@ public class GFX_Cube extends Application {
                 for (int z = 0; z < Z; z++) {
                     if(Math.random() < 0.1)
                     {
-                       grid.getCell(x,y,z).setCellValue(true);
+                       //grid.getCell(x,y,z).setCellValue(true);
                     }
                 }
             }
         }
 
-        /*grid.getCell(X/2+1,Y/2+2,Z/2).setCellValue(true);
+        grid.getCell(X/2+1,Y/2+2,Z/2).setCellValue(true);
         grid.getCell(X/2,Y/2+2,Z/2).setCellValue(true);
         grid.getCell(X/2-1,Y/2+2,Z/2).setCellValue(true);
 
@@ -156,7 +157,7 @@ public class GFX_Cube extends Application {
 
         grid.getCell(X/2-2,Y/2+1,Z/2).setCellValue(true);
         grid.getCell(X/2-2,Y/2,Z/2).setCellValue(true);
-        grid.getCell(X/2-2,Y/2-1,Z/2).setCellValue(true);*/
+        grid.getCell(X/2-2,Y/2-1,Z/2).setCellValue(true);
 
     }
 

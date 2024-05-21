@@ -1,0 +1,18 @@
+<CellularAutomaton>
+    <Dimension>3</Dimension>
+    <GridSize>
+        <Size>50</Size>
+        <Size>50</Size>
+        <Size>50</Size>
+    </GridSize>
+    <DisplayPlane>(37, :, :)</DisplayPlane>
+    <AdditionalNeighborhoods>
+        <Neighborhood>G32 = ((-1, 0), (1, 0), (0, -1), (0, 1))</Neighborhood>
+    </AdditionalNeighborhoods>
+    <EvolutionRule>ADD(MUL(3,SUB(MUL(2,4), 3)), COMPTER(G0))</EvolutionRule>
+    <InitialCells>
+        <Cell>(10, 20, 30)</Cell>
+        <Cell>(15, 25, 35)</Cell>
+        <Random>RANDOM(5)</Random>
+    </InitialCells>
+</CellularAutomaton>
