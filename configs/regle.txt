@@ -1,7 +1,0 @@
-3d
-356
-
-
-
-
-ADD(MUL(3,SUB(MUL(2,4), 3)), COMPTER(G0))

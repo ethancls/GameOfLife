@@ -3,6 +3,48 @@
     "configurations": [
         {
             "type": "java",
+            "name": "TOOLS_EvolutionRule",
+            "request": "launch",
+            "mainClass": "TOOLS_EvolutionRule",
+            "projectName": "GameOfLife_4dc4b19b"
+        },
+        {
+            "type": "java",
+            "name": "TEST_NeighborhoodTest",
+            "request": "launch",
+            "mainClass": "TEST_NeighborhoodTest",
+            "projectName": "GameOfLife_4dc4b19b"
+        },
+        {
+            "type": "java",
+            "name": "ConfigLoader",
+            "request": "launch",
+            "mainClass": "ConfigLoader",
+            "projectName": "GameOfLife_4dc4b19b"
+        },
+        {
+            "type": "java",
+            "name": "GameOfLifeConfigurator",
+            "request": "launch",
+            "mainClass": "GameOfLifeConfigurator",
+            "projectName": "GameOfLife_4dc4b19b"
+        },
+        {
+            "type": "java",
+            "name": "TOOLS_XML",
+            "request": "launch",
+            "mainClass": "TOOLS_XML",
+            "projectName": "GameOfLife_4dc4b19b"
+        },
+        {
+            "type": "java",
+            "name": "TOOLS_XMLConfigurator",
+            "request": "launch",
+            "mainClass": "TOOLS_XMLConfigurator",
+            "projectName": "GameOfLife_4dc4b19b"
+        },
+        {
+            "type": "java",
             "name": "TOOLS_ReadFile",
             "request": "launch",
             "mainClass": "TOOLS_ReadFile",

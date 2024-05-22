@@ -1,7 +1,4 @@
 import java.util.List;
-import java.util.Random;
-
-import java.awt.Color;
 
 class ET extends OperatorNode {
     public ET(TreeNode left, TreeNode right) {
@@ -160,22 +157,9 @@ class Rule3D {
         int z = position[2];
 
         COMPTER.setSettings(grid, x, y, z);
-        
-        TreeNode compterG0 = new COMPTER("G0");
-        TreeNode compterG26 = new COMPTER("G26*");
-
-        TreeNode eqG0_1 = new EQ(compterG0, new ConstNode(1)); // Mort ou vivant
-        TreeNode Eq_5 = new EQ(compterG26, new ConstNode(5)); // 5 voisins
-        TreeNode Eq_6 = new EQ(compterG26, new ConstNode(6)); // 6 voisins
-        TreeNode Eq_4 = new EQ(compterG26, new ConstNode(4)); // 4 voisins
-        TreeNode Ou_2 = new OU(Eq_5, Eq_6); // 2 ou 3 voisins
-
-        TreeNode siSupEqG8_4 = new SI(Ou_2, new ConstNode(1), new ConstNode(0)); // 5 ou 6 voisins ? 1 : 0
-        TreeNode siEqG8_2 = new SI(Eq_4, new ConstNode(1), new ConstNode(0)); // 4 voisins ? 1 : 0
-
-        TreeNode mainSi = new SI(eqG0_1, siSupEqG8_4, siEqG8_2);
-
-        return mainSi.getValue() == 1;
+        TOOLS_EvolutionRule rule3d = new TOOLS_EvolutionRule("SI(EQ(COMPTER(G0),1), SI(OU(EQ(COMPTER(G26*),5),EQ(COMPTER(G26*),6)),1,0) , SI(EQ(COMPTER(G26*),4),1,0))", false);
+        TOOLS_EvolutionRule.cursor = 0;
+        return rule3d.createNode(TOOLS_EvolutionRule.ParseFile()).getValue() == 1;
     }
 }
 
@@ -186,20 +170,9 @@ class Rule2D {
         int x = position[0];
         int y = position[1];
         COMPTER.setSettings(grid, x, y);
-        TreeNode compterG0 = new COMPTER("G0");
-        TreeNode compterG8 = new COMPTER("G8*");
-        
-        TreeNode eqG0_1 = new EQ(compterG0, new ConstNode(1)); // Mort ou vivant
-        TreeNode EqG8_3 = new EQ(compterG8, new ConstNode(3)); // 3 voisins
-        TreeNode EqG8_2 = new EQ(compterG8, new ConstNode(2)); // 2 voisins
-        TreeNode Ou_2 = new OU(EqG8_2, EqG8_3); // 2 ou 3 voisins
-
-        TreeNode siSupEqG8_4 = new SI(Ou_2, new ConstNode(1), new ConstNode(0)); // 2 ou 3 voisins ? 1 : 0
-        TreeNode siEqG8_2 = new SI(EqG8_3, new ConstNode(1), new ConstNode(0)); // 3 voisins ? 1 : 0
-
-        TreeNode mainSi = new SI(eqG0_1, siSupEqG8_4, siEqG8_2);
-
-        return mainSi.getValue() == 1;
+        TOOLS_EvolutionRule rule3d = new TOOLS_EvolutionRule("SI(EQ(COMPTER(G0),1), SI(OU(EQ(COMPTER(G8*),2),EQ(COMPTER(G8*),3)),1,0) , SI(EQ(COMPTER(G8*),3),1,0))", false);
+        TOOLS_EvolutionRule.cursor = 0;
+        return rule3d.createNode(TOOLS_EvolutionRule.ParseFile()).getValue() == 1;
     }
 }
 
@@ -207,32 +180,5 @@ public class TOOLS_Rules {
 
     public static int evaluate(TreeNode tree) {
         return tree.getValue();
-    }
-
-    public static void main(String[] args) {
-        int rows = 11;
-        int cols = 11;
-        Random random = new Random();
-        STRUCT_Grid_ND grid = new STRUCT_Grid_ND(rows, cols);
-
-        for (int i = 0; i < rows * cols * 0.25; i++) {
-            grid.getCell(random.nextInt(rows), random.nextInt(cols)).setCellValue(true);
-        }
-        GFX_GrilleGraphique Grid_2D = new GFX_GrilleGraphique(grid.getDimensions()[0], grid.getDimensions()[1], 12);
-
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (grid.getCell(i, j).getCellValue()) {
-                    Grid_2D.colorierCase(i, j, Color.BLACK);
-                }
-            }
-        }
-        int[] position = { 5, 5 };
-        COMPTER.setSettings(grid, position);
-        // Using COMPTER with the G8 neighborhood
-        TreeNode compterNode = new COMPTER("G8*"); // pb voisinage si pas 2d
-
-        int result = evaluate(compterNode);
-        System.out.println("Result: " + result);
     }
 }

@@ -1,7 +1,5 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 interface Neighborhood {
@@ -9,7 +7,7 @@ interface Neighborhood {
 }
 
 public class TOOLS_Neighborhoods {
-    private static final Map<String, Neighborhood> customNeighborhoods = new HashMap<>();
+    private static final List<CustomNeighborhood> customNeighborhoods = new ArrayList<>();
 
     // Predefined neighborhoods
     public static final Neighborhood G0 = position -> List.of(position);
@@ -102,7 +100,12 @@ public class TOOLS_Neighborhoods {
             case "G26*":
                 return G26Star;
             default:
-                return customNeighborhoods.get(name);
+                for (CustomNeighborhood custom : customNeighborhoods) {
+                    if (custom.getName().equals(name)) {
+                        return custom.getNeighborhood();
+                    }
+                }
+                return null;
         }
     }
 
@@ -118,7 +121,7 @@ public class TOOLS_Neighborhoods {
             }
             return absoluteNeighbors;
         };
-        customNeighborhoods.put(name, customNeighborhood);
+        customNeighborhoods.add(new CustomNeighborhood(name, customNeighborhood));
     }
 
     public static List<int[]> useCustomNeighborhood(String name, int... position) {
@@ -130,10 +133,27 @@ public class TOOLS_Neighborhoods {
         }
     }
 
-    public String toString() 
-    {
+    public String toString() {
         return "********* NEIGHBORHOODS **********\n"
                 + "Predefined neighborhoods: G0, G2, G4, G8, G6, G26, G2*, G4*, G8*, G6*, G26*\n"
-                + "Custom neighborhoods: " + customNeighborhoods.keySet() + "\n";
+                + "Custom neighborhoods: " + customNeighborhoods.stream().map(CustomNeighborhood::getName).collect(Collectors.joining(", ")) + "\n";
+    }
+
+    private static class CustomNeighborhood {
+        private final String name;
+        private final Neighborhood neighborhood;
+
+        public CustomNeighborhood(String name, Neighborhood neighborhood) {
+            this.name = name;
+            this.neighborhood = neighborhood;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public Neighborhood getNeighborhood() {
+            return neighborhood;
+        }
     }
 }

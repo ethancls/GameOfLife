@@ -31,32 +31,25 @@ public class GFX_Cube extends Application {
 
     private final int WIDTH = 1300;
     private final int HEIGHT = 1000;
-    private static int X = 15;
-    private static int Y = 15;
-    private static int Z = 15;
+    private static int X;
+    private static int Y;
+    private static int Z;
     private int SMALL_BOX_SIZE = 5;
-    STRUCT_Grid_ND grid;
+    public static STRUCT_Grid_ND grid;
     private int generation = 0;
     private Timeline timeline;
 
     public GFX_Cube() {
-        this(new STRUCT_Grid_ND(X, Y, Z));
+        // Default constructor
     }
 
     public GFX_Cube(STRUCT_Grid_ND grid) {
-        try 
-        {
-            X = grid.getDimensions()[0];
-            Y = grid.getDimensions()[1];
-            Z = grid.getDimensions()[2];
-            this.grid = grid;
-        } 
-        catch (Exception e)
-        {
-            System.out.println("Error: " + e);
-            System.out.println("Setting default values for X, Y, Z");
-            this.grid = new STRUCT_Grid_ND(X, Y, Z);
-        }
+        GFX_Cube.grid = grid;
+        X = grid.getDimensions()[0];
+        Y = grid.getDimensions()[1];
+        Z = grid.getDimensions()[2];
+        System.out.println("Grid passed to GFX_Cube:");
+        System.out.println(grid.toString()); // Verify grid content
     }
 
     private double anchorX, anchorY;
@@ -68,7 +61,6 @@ public class GFX_Cube extends Application {
     @Override
     public void start(Stage primaryStage) {
         SmartGroup group = new SmartGroup();
-        initializeGrid();
         createCube(group);
 
         Camera camera = new PerspectiveCamera();
@@ -130,45 +122,13 @@ public class GFX_Cube extends Application {
         timeline.setCycleCount(Timeline.INDEFINITE);
     }
 
-    private void initializeGrid() {
+    private void updateCube() {
+        STRUCT_Grid_ND new_grid = new STRUCT_Grid_ND(grid.getDimensions());
         
         for (int x = 0; x < X; x++) {
             for (int y = 0; y < Y; y++) {
                 for (int z = 0; z < Z; z++) {
-                    if(Math.random() < 0.1)
-                    {
-                       //grid.getCell(x,y,z).setCellValue(true);
-                    }
-                }
-            }
-        }
-
-        grid.getCell(X/2+1,Y/2+2,Z/2).setCellValue(true);
-        grid.getCell(X/2,Y/2+2,Z/2).setCellValue(true);
-        grid.getCell(X/2-1,Y/2+2,Z/2).setCellValue(true);
-
-        grid.getCell(X/2+1,Y/2-2,Z/2).setCellValue(true);
-        grid.getCell(X/2,Y/2-2,Z/2).setCellValue(true);
-        grid.getCell(X/2-1,Y/2-2,Z/2).setCellValue(true);
-
-        grid.getCell(X/2+2,Y/2+1,Z/2).setCellValue(true);
-        grid.getCell(X/2+2,Y/2,Z/2).setCellValue(true);
-        grid.getCell(X/2+2,Y/2-1,Z/2).setCellValue(true);
-
-        grid.getCell(X/2-2,Y/2+1,Z/2).setCellValue(true);
-        grid.getCell(X/2-2,Y/2,Z/2).setCellValue(true);
-        grid.getCell(X/2-2,Y/2-1,Z/2).setCellValue(true);
-
-    }
-
-    private void updateCube() 
-    {
-        STRUCT_Grid_ND new_grid = new STRUCT_Grid_ND(grid.getDimensions());
-
-        for (int x = 0; x < X; x++) {
-            for (int y = 0; y < Y; y++) {
-                for (int z = 0; z < Z; z++) {
-                    if (new Rule3D().isAlive(grid, x,y,z)) {
+                    if (new Rule3D().isAlive(grid, x, y, z)) {
                         new_grid.getCell(x, y, z).setCellValue(true);
                     } else {
                         new_grid.getCell(x, y, z).setCellValue(false);
@@ -186,11 +146,11 @@ public class GFX_Cube extends Application {
         for (int x = 0; x < X; x++) {
             for (int y = 0; y < Y; y++) {
                 for (int z = 0; z < Z; z++) {
-                    if (grid.getCell(x,y,z).getCellValue()) {
+                    if (grid.getCell(x, y, z).getCellValue()) {
                         Box box = new Box(SMALL_BOX_SIZE, SMALL_BOX_SIZE, SMALL_BOX_SIZE);
                         PhongMaterial material = new PhongMaterial();
                         material.setDiffuseColor(Color.RED);
-                        //material.setDiffuseMap(new javafx.scene.image.Image("./brick.jpg"));
+                        // material.setDiffuseMap(new javafx.scene.image.Image("./brick.jpg"));
                         material.setSpecularColor(Color.GREENYELLOW);
                         box.setMaterial(material);
                         box.setTranslateX(x * (SMALL_BOX_SIZE) - (X * (SMALL_BOX_SIZE) / 2));
