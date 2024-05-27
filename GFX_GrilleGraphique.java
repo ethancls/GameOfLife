@@ -35,8 +35,8 @@ public class GFX_GrilleGraphique extends JPanel {
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int col = (int) ((e.getX()) / (taille_case));
-                int row = (int) ((e.getY()) / (taille_case));
+                int col = (int) ((e.getX() - taille_case) / (taille_case));
+                int row = (int) ((e.getY() - taille_case) / (taille_case));
                 if (col >= 0 && col < largeur && row >= 0 && row < hauteur) {
                     try {
                         grid.getCell(col, row).setCellValue(!grid.getCell(col, row).getCellValue());
