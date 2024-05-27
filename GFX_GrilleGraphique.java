@@ -52,18 +52,6 @@ public class GFX_GrilleGraphique extends JPanel {
                 }
             }
         });
-      
-    }
-
-    public void updateDimensions(int largeur, int hauteur) {
-        this.largeur = largeur;
-        this.hauteur = hauteur;
-        window.setSize((largeur + 2) * taille_case, (hauteur + 4) * taille_case);
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.add(this);
-        window.setVisible(true);
-        revalidate();
-        repaint();
     }
 
     @Override
