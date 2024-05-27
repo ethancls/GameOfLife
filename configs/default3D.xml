@@ -5,10 +5,7 @@
         <Size>11</Size>
         <Size>11</Size>
     </GridSize>
-    <Cut></Cut>
-    <CustomNeighborhoods>
-        <Neighborhood></Neighborhood>
-    </CustomNeighborhoods>
+    <Cut>z 5</Cut>
     <EvolutionRule>SI(EQ(COMPTER(G0),1), SI(OU(EQ(COMPTER(G26*),5),EQ(COMPTER(G26*),6)),1,0) , SI(EQ(COMPTER(G26*),4),1,0))</EvolutionRule>
     <InitialCells>
         <Cell>6, 7, 5</Cell>

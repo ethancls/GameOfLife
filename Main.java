@@ -1,3 +1,4 @@
+
 // 2D
 import java.awt.Color;
 import java.awt.event.KeyEvent;
@@ -51,7 +52,7 @@ public class Main {
     static TOOLS_EvolutionRule evolutionRule;
 
     public static void main(String[] args)
-        throws ParserConfigurationException, SAXException, NumberFormatException {
+            throws ParserConfigurationException, SAXException, NumberFormatException {
         TOOLS_ConfigLoader loader = new TOOLS_ConfigLoader();
         String filePath = loader.askForFilePath();
         if (filePath != null) {
@@ -59,8 +60,7 @@ public class Main {
         } else {
             config("./configs/default2D.xml");
             System.out.println(
-                "Aucun fichier sélectionné, utilisation des valeurs par défaut."
-            );
+                    "Aucun fichier sélectionné, utilisation des valeurs par défaut.");
         }
 
         int[] dimensions = grid.getDimensions();
@@ -82,11 +82,10 @@ public class Main {
 
     private static void run2DSimulation(STRUCT_Grid_ND grid) {
         GFX_GrilleGraphique Grid_2D = new GFX_GrilleGraphique(
-            grid,
-            grid.getDimensions()[0],
-            grid.getDimensions()[1],
-            15
-        );
+                grid,
+                grid.getDimensions()[0],
+                grid.getDimensions()[1],
+                12);
 
         for (int i = 0; i < grid.getDimensions()[0]; i++) {
             for (int j = 0; j < grid.getDimensions()[1]; j++) {
@@ -108,16 +107,18 @@ public class Main {
 
             @Override
             public void keyTyped(KeyEvent e) {
-                if (e.getKeyChar() == 'c') {
+                if (e.getKeyChar() == 's') {
                     simulationRunning = true;
                 }
             }
 
             @Override
-            public void keyPressed(KeyEvent e) {}
+            public void keyPressed(KeyEvent e) {
+            }
 
             @Override
-            public void keyReleased(KeyEvent e) {}
+            public void keyReleased(KeyEvent e) {
+            }
 
             public boolean isSimulationRunning() {
                 return simulationRunning;
@@ -148,12 +149,11 @@ public class Main {
 
         int GENERATIONS = 0;
         final GridWrapper gridWrapper = new GridWrapper(grid);
-        Timer timer = new Timer(200, e -> {
+        Timer timer = new Timer(10, e -> {
             if (panel.isSimulationRunning()) {
                 System.out.println("GENERATIONS: " + gridWrapper.GENERATIONS);
                 gridWrapper.setGrid(
-                    run2DSimulationStep(gridWrapper.getGrid(), Grid_2D)
-                );
+                        run2DSimulationStep(gridWrapper.getGrid(), Grid_2D));
                 gridWrapper.GENERATIONS++;
             }
         });
@@ -162,9 +162,8 @@ public class Main {
     }
 
     private static STRUCT_Grid_ND run2DSimulationStep(
-        STRUCT_Grid_ND grid,
-        GFX_GrilleGraphique Grid_2D
-    ) {
+            STRUCT_Grid_ND grid,
+            GFX_GrilleGraphique Grid_2D) {
         int rows = grid.getDimensions()[0];
         int cols = grid.getDimensions()[1];
 
@@ -175,8 +174,8 @@ public class Main {
                 COMPTER.setSettings(grid, i, j);
                 TOOLS_EvolutionRule.cursor = 0;
                 int result = evolutionRule
-                    .createNode(TOOLS_EvolutionRule.ParseFile())
-                    .getValue();
+                        .createNode(TOOLS_EvolutionRule.ParseFile())
+                        .getValue();
                 if (result == 1) {
                     new_grid.getCell(i, j).setCellValue(true);
                 } else {
@@ -199,10 +198,9 @@ public class Main {
     }
 
     private static void run3DCutSimulation(
-        STRUCT_Grid_ND grid,
-        int value,
-        int axis
-    ) {
+            STRUCT_Grid_ND grid,
+            int value,
+            int axis) {
         int[] dimensions = grid.getDimensions();
         int width, height;
 
@@ -219,11 +217,10 @@ public class Main {
         }
 
         GFX_GrilleGraphique grid2D = new GFX_GrilleGraphique(
-            grid,
-            width,
-            height,
-            12
-        );
+                grid,
+                width,
+                height,
+                12);
 
         // Extract and display the 2D slice
         for (int i = 0; i < width; i++) {
@@ -260,10 +257,12 @@ public class Main {
             }
 
             @Override
-            public void keyPressed(KeyEvent e) {}
+            public void keyPressed(KeyEvent e) {
+            }
 
             @Override
-            public void keyReleased(KeyEvent e) {}
+            public void keyReleased(KeyEvent e) {
+            }
 
             public boolean isSimulationRunning() {
                 return simulationRunning;
@@ -298,13 +297,11 @@ public class Main {
             if (panel.isSimulationRunning()) {
                 System.out.println("GENERATIONS: " + gridWrapper.GENERATIONS);
                 gridWrapper.setGrid(
-                    run3DSimulationStep(
-                        gridWrapper.getGrid(),
-                        grid2D,
-                        value,
-                        axis
-                    )
-                );
+                        run3DSimulationStep(
+                                gridWrapper.getGrid(),
+                                grid2D,
+                                value,
+                                axis));
                 gridWrapper.GENERATIONS++;
             }
         });
@@ -313,11 +310,10 @@ public class Main {
     }
 
     private static STRUCT_Grid_ND run3DSimulationStep(
-        STRUCT_Grid_ND grid,
-        GFX_GrilleGraphique Grid_2D,
-        int value,
-        int axis
-    ) {
+            STRUCT_Grid_ND grid,
+            GFX_GrilleGraphique Grid_2D,
+            int value,
+            int axis) {
         int rows = grid.getDimensions()[0];
         int cols = grid.getDimensions()[1];
         int depth = grid.getDimensions()[2];
@@ -330,8 +326,8 @@ public class Main {
                     COMPTER.setSettings(grid, x, y, z);
                     TOOLS_EvolutionRule.cursor = 0;
                     int result = evolutionRule
-                        .createNode(TOOLS_EvolutionRule.ParseFile())
-                        .getValue();
+                            .createNode(TOOLS_EvolutionRule.ParseFile())
+                            .getValue();
                     if (result == 1) {
                         new_grid.getCell(x, y, z).setCellValue(true);
                     } else {
@@ -383,7 +379,7 @@ public class Main {
     }
 
     public static void config(String path)
-        throws ParserConfigurationException, SAXException {
+            throws ParserConfigurationException, SAXException {
         try {
             File file = new File(path);
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -391,8 +387,7 @@ public class Main {
             Document document = db.parse(file);
             document.getDocumentElement().normalize();
             System.out.println(
-                "Root Element :" + document.getDocumentElement().getNodeName()
-            );
+                    "Root Element :" + document.getDocumentElement().getNodeName());
             NodeList nList = document.getDocumentElement().getChildNodes();
 
             for (int temp = 0; temp < nList.getLength(); temp++) {
@@ -403,30 +398,26 @@ public class Main {
                     switch (eElement.getNodeName()) {
                         case "Dimension":
                             System.out.println(
-                                "Dimension : " + eElement.getTextContent()
-                            );
+                                    "Dimension : " + eElement.getTextContent());
                             break;
                         case "GridSize":
                             NodeList sizes = eElement.getElementsByTagName(
-                                "Size"
-                            );
+                                    "Size");
                             System.out.print("GridSize : ");
                             int[] gridSize = new int[sizes.getLength()];
                             for (int i = 0; i < sizes.getLength(); i++) {
                                 gridSize[i] = Integer.parseInt(
-                                    sizes.item(i).getTextContent()
-                                );
+                                        sizes.item(i).getTextContent());
                                 System.out.print(
-                                    sizes.item(i).getTextContent() + " "
-                                );
+                                        sizes.item(i).getTextContent() + " ");
                             }
                             grid = new STRUCT_Grid_ND(gridSize);
                             System.out.println();
                             break;
                         case "Cut":
                             String[] parts = eElement
-                                .getTextContent()
-                                .split(" ");
+                                    .getTextContent()
+                                    .split(" ");
                             int axis = -1;
                             switch (parts[0].toLowerCase()) {
                                 case "x":
@@ -440,37 +431,26 @@ public class Main {
                                     break;
                                 default:
                                     throw new IllegalArgumentException(
-                                        "Invalid axis. Use 'x', 'y', or 'z'."
-                                    );
+                                            "Invalid axis. Use 'x', 'y', or 'z'.");
                             }
                             cut[1] = Integer.parseInt(parts[1]);
                             System.out.println(
-                                "Cut : " + eElement.getTextContent()
-                            );
+                                    "Cut : " + eElement.getTextContent());
                             break;
                         case "CustomNeighborhoods":
-                            NodeList neighborhoods =
-                                eElement.getElementsByTagName("Neighborhood");
-                            for (
-                                int i = 0;
-                                i < neighborhoods.getLength();
-                                i++
-                            ) {
+                            NodeList neighborhoods = eElement.getElementsByTagName("Neighborhood");
+                            for (int i = 0; i < neighborhoods.getLength(); i++) {
                                 new TOOLS_NeighborhoodParser()
-                                    .parseFile(
-                                        neighborhoods.item(i).getTextContent()
-                                    );
+                                        .parseFile(
+                                                neighborhoods.item(i).getTextContent());
                                 System.out.println(
-                                    "Neighborhood : " +
-                                    neighborhoods.item(i).getTextContent()
-                                );
+                                        "Neighborhood : " +
+                                                neighborhoods.item(i).getTextContent());
                             }
                             System.out.println(
-                                new TOOLS_Neighborhoods().toString()
-                            );
+                                    new TOOLS_Neighborhoods().toString());
                             for (int[] neighbor : TOOLS_Neighborhoods.getNeighborhoodByName(
-                                "G32"
-                            ).getNeighbors(2, 2)) {
+                                    "G32").getNeighbors(2, 2)) {
                                 System.out.print("[");
                                 for (int i = 0; i < neighbor.length; i++) {
                                     System.out.print(neighbor[i]);
@@ -483,53 +463,38 @@ public class Main {
                             break;
                         case "EvolutionRule":
                             evolutionRule = new TOOLS_EvolutionRule(
-                                eElement.getTextContent(),
-                                false
-                            );
+                                    eElement.getTextContent(),
+                                    false);
                             System.out.println(
-                                "EvolutionRule : " + eElement.getTextContent()
-                            );
+                                    "EvolutionRule : " + eElement.getTextContent());
                             break;
                         case "InitialCells":
-                            if (
-                                eElement
+                            if (eElement
                                     .getElementsByTagName("Random")
-                                    .getLength() >
-                                0
-                            ) {
+                                    .getLength() > 0) {
                                 NodeList k = eElement.getElementsByTagName(
-                                    "Random"
-                                );
+                                        "Random");
                                 grid.initializeCells(
-                                    Integer.parseInt(k.item(0).getTextContent())
-                                );
+                                        Integer.parseInt(k.item(0).getTextContent()));
                             } else {
                                 NodeList cells = eElement.getElementsByTagName(
-                                    "Cell"
-                                );
+                                        "Cell");
                                 for (int i = 0; i < cells.getLength(); i++) {
                                     String[] coordinates = cells
-                                        .item(i)
-                                        .getTextContent()
-                                        .split(",");
-                                    int[] cellCoordinates =
-                                        new int[coordinates.length];
-                                    for (
-                                        int j = 0;
-                                        j < coordinates.length;
-                                        j++
-                                    ) {
+                                            .item(i)
+                                            .getTextContent()
+                                            .split(",");
+                                    int[] cellCoordinates = new int[coordinates.length];
+                                    for (int j = 0; j < coordinates.length; j++) {
                                         cellCoordinates[j] = Integer.parseInt(
-                                            coordinates[j].trim()
-                                        );
+                                                coordinates[j].trim());
                                     }
                                     grid
-                                        .getCell(cellCoordinates)
-                                        .setCellValue(true);
+                                            .getCell(cellCoordinates)
+                                            .setCellValue(true);
                                     System.out.println(
-                                        "Cell : " +
-                                        cells.item(i).getTextContent()
-                                    );
+                                            "Cell : " +
+                                                    cells.item(i).getTextContent());
                                 }
                             }
                         default:

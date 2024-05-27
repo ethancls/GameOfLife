@@ -20,11 +20,6 @@ public class GFX_GrilleGraphique extends JPanel {
 
     private List<ColoredPoint> casesAColorier;
 
-    private int offsetX = 0, offsetY = 0;
-    private double zoomFactor = 1.0;
-
-    private Point lastDragPoint = null;
-
     public GFX_GrilleGraphique(STRUCT_Grid_ND grid, int largeur, int hauteur, int taille_case) {
         this.grid = grid;
         this.largeur = largeur;
@@ -40,8 +35,8 @@ public class GFX_GrilleGraphique extends JPanel {
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int col = (int) ((e.getX() - offsetX) / (taille_case * zoomFactor));
-                int row = (int) ((e.getY() - offsetY) / (taille_case * zoomFactor));
+                int col = (int) ((e.getX()) / (taille_case));
+                int row = (int) ((e.getY()) / (taille_case));
                 if (col >= 0 && col < largeur && row >= 0 && row < hauteur) {
                     try {
                         grid.getCell(col, row).setCellValue(!grid.getCell(col, row).getCellValue());
@@ -56,45 +51,8 @@ public class GFX_GrilleGraphique extends JPanel {
                     }
                 }
             }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                lastDragPoint = e.getPoint();
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                lastDragPoint = null;
-            }
         });
-
-        this.addMouseMotionListener(new MouseAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                if (lastDragPoint != null) {
-                    int deltaX = e.getX() - lastDragPoint.x;
-                    int deltaY = e.getY() - lastDragPoint.y;
-                    offsetX += deltaX;
-                    offsetY += deltaY;
-                    lastDragPoint = e.getPoint();
-                    repaint();
-                }
-            }
-        });
-
-        // Adding key listener for zooming with 'z' and 's' keys
-        window.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyChar() == 'z') {
-                    zoomFactor = Math.min(zoomFactor * 1.1, 5.0);
-                    repaint();
-                } else if (e.getKeyChar() == 's') {
-                    zoomFactor = Math.max(zoomFactor / 1.1, 0.2);
-                    repaint();
-                }
-            }
-        });
+      
     }
 
     public void updateDimensions(int largeur, int hauteur) {
@@ -112,26 +70,22 @@ public class GFX_GrilleGraphique extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.translate(offsetX, offsetY);
-        g2d.scale(zoomFactor, zoomFactor);
-
         for (ColoredPoint fillCell : casesAColorier) {
             int cellX = taille_case + (fillCell.getPoint().x * taille_case);
             int cellY = taille_case + (fillCell.getPoint().y * taille_case);
-            g2d.setColor(fillCell.getColor());
-            g2d.fillRect(cellX, cellY, taille_case, taille_case);
+            g.setColor(fillCell.getColor());
+            g.fillRect(cellX, cellY, taille_case, taille_case);
         }
 
-        g2d.setColor(Color.BLACK);
-        g2d.drawRect(taille_case, taille_case, largeur * taille_case, hauteur * taille_case);
+        g.setColor(Color.BLACK);
+        g.drawRect(taille_case, taille_case, largeur * taille_case, hauteur * taille_case);
 
         for (int i = taille_case; i <= largeur * taille_case; i += taille_case) {
-            g2d.drawLine(i, taille_case, i, hauteur * taille_case + taille_case);
+            g.drawLine(i, taille_case, i, hauteur * taille_case + taille_case);
         }
 
         for (int i = taille_case; i <= hauteur * taille_case; i += taille_case) {
-            g2d.drawLine(taille_case, i, largeur * taille_case + taille_case, i);
+            g.drawLine(taille_case, i, largeur * taille_case + taille_case, i);
         }
     }
 
