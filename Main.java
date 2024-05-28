@@ -100,10 +100,10 @@ public class Main {
         for (int i = 0; i < grid.getDimensions()[0]; i++) {
             for (int j = 0; j < grid.getDimensions()[1]; j++) {
                 if (grid.getCell(i, j).getCellValue()) {
-                    Color color = Color.ORANGE;
+                    Color color = Color.BLUE;
                     Grid_2D.colorierCase(i, j, color);
                 } else {
-                    Color color = Color.BLACK;
+                    Color color = Color.WHITE;
                     Grid_2D.colorierCase(i, j, color);
                 }
             }
@@ -194,9 +194,9 @@ public class Main {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 if (new_grid.getCell(i, j).getCellValue()) {
-                    Grid_2D.colorierCase(i, j, Color.ORANGE);
+                    Grid_2D.colorierCase(i, j, Color.BLUE);
                 } else {
-                    Grid_2D.colorierCase(i, j, Color.BLACK);
+                    Grid_2D.colorierCase(i, j, Color.WHITE);
                 }
             }
         }
@@ -241,7 +241,7 @@ public class Main {
                     cellValue = grid.getCell(i, j, value).getCellValue();
                 }
                 if (cellValue) {
-                    grid2D.colorierCase(i, j, Color.ORANGE);
+                    grid2D.colorierCase(i, j, Color.BLUE);
                 }
             }
         }
@@ -371,9 +371,9 @@ public class Main {
                     cellValue = new_grid.getCell(i, j, value).getCellValue();
                 }
                 if (cellValue) {
-                    Grid_2D.colorierCase(i, j, Color.ORANGE);
+                    Grid_2D.colorierCase(i, j, Color.BLUE);
                 } else {
-                    Grid_2D.colorierCase(i, j, Color.BLACK);
+                    Grid_2D.colorierCase(i, j, Color.WHITE);
                 }
             }
         }

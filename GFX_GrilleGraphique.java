@@ -43,10 +43,10 @@ public class GFX_GrilleGraphique extends JPanel {
                         if (grid.getCell(col, row).getCellValue()) {
                             System.out.println("<Cell>" + col + "," + row + "</Cell>");
                             grid.getCell(col, row).setCellValue(true);
-                            colorierCase(col, row, Color.ORANGE);
+                            colorierCase(col, row, Color.BLUE);
                         } else {
                             grid.getCell(col, row).setCellValue(false);
-                            colorierCase(col, row, Color.BLACK);
+                            colorierCase(col, row, Color.WHITE);
                         }
                     } catch (ArrayIndexOutOfBoundsException ex) {
                         System.out.println("Error: Invalid cell");
