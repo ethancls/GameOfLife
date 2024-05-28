@@ -3,13 +3,21 @@
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
+
 // XML
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Random;
+
 // Tools
 import java.util.Scanner;
+
 // 3D
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -28,6 +36,7 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.xml.parsers.DocumentBuilder;
@@ -81,48 +90,69 @@ public class Main {
     }
 
     private static void run2DSimulation(STRUCT_Grid_ND grid) {
+        int taille_case = 12;
         GFX_GrilleGraphique Grid_2D = new GFX_GrilleGraphique(
                 grid,
                 grid.getDimensions()[0],
                 grid.getDimensions()[1],
-                12);
+                taille_case);
 
         for (int i = 0; i < grid.getDimensions()[0]; i++) {
             for (int j = 0; j < grid.getDimensions()[1]; j++) {
                 if (grid.getCell(i, j).getCellValue()) {
-                    Grid_2D.colorierCase(i, j, Color.RED);
+                    Color color = Color.ORANGE;
+                    Grid_2D.colorierCase(i, j, color);
+                } else {
+                    Color color = Color.BLACK;
+                    Grid_2D.colorierCase(i, j, color);
                 }
             }
         }
 
-        class SimulationPanel extends JPanel implements KeyListener {
+        class SimulationPanel extends JPanel {
 
             private boolean simulationRunning = false;
+            private JButton startStopButton;
 
             public SimulationPanel() {
-                addKeyListener(this);
-                setFocusable(true);
-                requestFocusInWindow();
-            }
+                startStopButton = new JButton("Start");
+                startStopButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        simulationRunning = !simulationRunning;
+                        startStopButton.setText(simulationRunning ? "Stop" : "Start");
+                    }
+                });
+                add(startStopButton);
 
-            @Override
-            public void keyTyped(KeyEvent e) {
-                if (e.getKeyChar() == 's') {
-                    simulationRunning = true;
-                }
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
+                addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        int col = (int) ((e.getX() - taille_case) / (taille_case));
+                        int row = (int) ((e.getY() - taille_case) / (taille_case));
+                        if (col >= 0 && col < grid.getDimensions()[0] && row >= 0 && row < grid.getDimensions()[1]) {
+                            try {
+                                grid.getCell(col, row).setCellValue(!grid.getCell(col, row).getCellValue());
+                                if (grid.getCell(col, row).getCellValue()) {
+                                    System.out.println("<Cell>" + col + "," + row + "</Cell>");
+                                    grid.getCell(col, row).setCellValue(true);
+                                    Grid_2D.colorierCase(col, row, Color.ORANGE);
+                                } else {
+                                    grid.getCell(col, row).setCellValue(false);
+                                    Grid_2D.colorierCase(col, row, Color.BLACK);
+                                }
+                            } catch (ArrayIndexOutOfBoundsException ex) {
+                                System.out.println("Error: Invalid cell");
+                            }
+                        }
+                    }
+                });
             }
 
             public boolean isSimulationRunning() {
                 return simulationRunning;
             }
+
         }
 
         SimulationPanel panel = new SimulationPanel();
@@ -187,9 +217,9 @@ public class Main {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 if (new_grid.getCell(i, j).getCellValue()) {
-                    Grid_2D.colorierCase(i, j, Color.BLACK);
+                    Grid_2D.colorierCase(i, j, Color.ORANGE);
                 } else {
-                    Grid_2D.colorierCase(i, j, Color.WHITE);
+                    Grid_2D.colorierCase(i, j, Color.BLACK);
                 }
             }
         }
@@ -234,7 +264,7 @@ public class Main {
                     cellValue = grid.getCell(i, j, value).getCellValue();
                 }
                 if (cellValue) {
-                    grid2D.colorierCase(i, j, Color.RED);
+                    grid2D.colorierCase(i, j, Color.ORANGE);
                 }
             }
         }
@@ -251,7 +281,7 @@ public class Main {
 
             @Override
             public void keyTyped(KeyEvent e) {
-                if (e.getKeyChar() == 's') {
+                if (e.getKeyChar() == 'c') {
                     simulationRunning = true;
                 }
             }
@@ -364,9 +394,9 @@ public class Main {
                     cellValue = new_grid.getCell(i, j, value).getCellValue();
                 }
                 if (cellValue) {
-                    Grid_2D.colorierCase(i, j, Color.RED);
+                    Grid_2D.colorierCase(i, j, Color.ORANGE);
                 } else {
-                    Grid_2D.colorierCase(i, j, Color.WHITE);
+                    Grid_2D.colorierCase(i, j, Color.BLACK);
                 }
             }
         }
@@ -449,17 +479,6 @@ public class Main {
                             }
                             System.out.println(
                                     new TOOLS_Neighborhoods().toString());
-                            for (int[] neighbor : TOOLS_Neighborhoods.getNeighborhoodByName(
-                                    "G32").getNeighbors(2, 2)) {
-                                System.out.print("[");
-                                for (int i = 0; i < neighbor.length; i++) {
-                                    System.out.print(neighbor[i]);
-                                    if (i < neighbor.length - 1) {
-                                        System.out.print(", ");
-                                    }
-                                }
-                                System.out.println("]");
-                            }
                             break;
                         case "EvolutionRule":
                             evolutionRule = new TOOLS_EvolutionRule(
