@@ -124,29 +124,6 @@ public class Main {
                     }
                 });
                 add(startStopButton);
-
-                addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        int col = (int) ((e.getX() - taille_case) / (taille_case));
-                        int row = (int) ((e.getY() - taille_case) / (taille_case));
-                        if (col >= 0 && col < grid.getDimensions()[0] && row >= 0 && row < grid.getDimensions()[1]) {
-                            try {
-                                grid.getCell(col, row).setCellValue(!grid.getCell(col, row).getCellValue());
-                                if (grid.getCell(col, row).getCellValue()) {
-                                    System.out.println("<Cell>" + col + "," + row + "</Cell>");
-                                    grid.getCell(col, row).setCellValue(true);
-                                    Grid_2D.colorierCase(col, row, Color.ORANGE);
-                                } else {
-                                    grid.getCell(col, row).setCellValue(false);
-                                    Grid_2D.colorierCase(col, row, Color.BLACK);
-                                }
-                            } catch (ArrayIndexOutOfBoundsException ex) {
-                                System.out.println("Error: Invalid cell");
-                            }
-                        }
-                    }
-                });
             }
 
             public boolean isSimulationRunning() {

@@ -31,6 +31,29 @@ public class GFX_GrilleGraphique extends JPanel {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.add(this);
         window.setVisible(true);
+
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int col = (int) ((e.getX() - taille_case) / (taille_case));
+                int row = (int) ((e.getY() - taille_case) / (taille_case));
+                if (col >= 0 && col < largeur && row >= 0 && row < hauteur) {
+                    try {
+                        grid.getCell(col, row).setCellValue(!grid.getCell(col, row).getCellValue());
+                        if (grid.getCell(col, row).getCellValue()) {
+                            System.out.println("<Cell>" + col + "," + row + "</Cell>");
+                            grid.getCell(col, row).setCellValue(true);
+                            colorierCase(col, row, Color.ORANGE);
+                        } else {
+                            grid.getCell(col, row).setCellValue(false);
+                            colorierCase(col, row, Color.BLACK);
+                        }
+                    } catch (ArrayIndexOutOfBoundsException ex) {
+                        System.out.println("Error: Invalid cell");
+                    }
+                }
+            }
+        });
     }
 
     @Override
