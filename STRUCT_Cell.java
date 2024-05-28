@@ -8,7 +8,7 @@ public class STRUCT_Cell
     }
     public void setCellValue(boolean value)
     {
-        this.value = value;
+        this.value = value; 
     }
     public boolean getCellValue()
     {

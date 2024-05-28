@@ -17,6 +17,7 @@ import java.util.Random;
 
 // Tools
 import java.util.Scanner;
+import java.util.ResourceBundle.Control;
 
 // 3D
 import javafx.animation.KeyFrame;
@@ -38,6 +39,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JFrame;
 import javax.swing.Timer;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -59,17 +61,21 @@ public class Main {
     static STRUCT_Grid_ND grid;
     static int[] cut = new int[2];
     static TOOLS_EvolutionRule evolutionRule;
+    static int height = 50; //1D hauteur
+    static int taille_case = 12;
+    static int delay = 100;
+    static Color color_vie = Color.BLACK;
+    static Color color_mort = Color.WHITE;
 
     public static void main(String[] args)
-            throws ParserConfigurationException, SAXException, NumberFormatException {
+        throws ParserConfigurationException, SAXException, NumberFormatException {
         TOOLS_ConfigLoader loader = new TOOLS_ConfigLoader();
         String filePath = loader.askForFilePath();
         if (filePath != null) {
             config(filePath);
         } else {
-            config("./configs/default2D.xml");
-            System.out.println(
-                    "Aucun fichier sélectionné, utilisation des valeurs par défaut.");
+            config("./configs/Random2D.xml");
+            System.out.println("Aucun fichier sélectionné, utilisation des valeurs par défaut.");
         }
 
         int[] dimensions = grid.getDimensions();
@@ -86,11 +92,67 @@ public class Main {
             }
         } else if (dimensions.length == 2) {
             run2DSimulation(grid);
+        } else if (dimensions.length == 1) {
+            run1DSimulation(grid);
         }
     }
 
+    private static void run1DSimulation(STRUCT_Grid_ND grid) {
+        int width = grid.getDimensions()[0];
+
+        GFX_GrilleGraphique grid2D = new GFX_GrilleGraphique(grid, width, height, taille_case);
+
+        // Initialize the first row
+        for (int i = 0; i < width; i++) {
+            if (grid.getCell(i).getCellValue()) {
+                grid2D.colorierCase(i, 0, color_vie);
+            } else {
+                grid2D.colorierCase(i, 0, color_mort);
+            }
+        }
+
+        GFX_Start controle = new GFX_Start();
+        controle.setVisible(true);
+
+        final TOOLS_GridWrapper gridWrapper = new TOOLS_GridWrapper(grid);
+        Timer timer = new Timer(delay, e -> {
+            if (controle.isSimulationRunning()) {
+                //System.out.println("GENERATIONS: " + gridWrapper.GENERATIONS);
+                gridWrapper.setGrid(run1DSimulationStep(gridWrapper.getGrid(), grid2D, gridWrapper.GENERATIONS + 1));
+                gridWrapper.GENERATIONS++;
+            }
+        });
+
+        timer.start();
+    }
+
+    private static STRUCT_Grid_ND run1DSimulationStep(STRUCT_Grid_ND grid, GFX_GrilleGraphique Grid_2D,
+            int generation) {
+
+        int width = grid.getDimensions()[0];
+
+        STRUCT_Grid_ND new_grid = new STRUCT_Grid_ND(width);
+
+        if (generation == height) {
+            return null;
+        }
+        for (int i = 0; i < width; i++) {
+            COMPTER.setSettings(grid, i);
+            TOOLS_EvolutionRule.cursor = 0;
+            int result = evolutionRule.createNode(TOOLS_EvolutionRule.ParseFile()).getValue();
+            if (result == 1) {
+                new_grid.getCell(i).setCellValue(true);
+                Grid_2D.colorierCase(i, generation, color_vie);
+            } else {
+                new_grid.getCell(i).setCellValue(false);
+                Grid_2D.colorierCase(i, generation, color_mort);
+            }
+        }
+
+        return new_grid;
+    }
+
     private static void run2DSimulation(STRUCT_Grid_ND grid) {
-        int taille_case = 12;
         GFX_GrilleGraphique Grid_2D = new GFX_GrilleGraphique(
                 grid,
                 grid.getDimensions()[0],
@@ -100,65 +162,22 @@ public class Main {
         for (int i = 0; i < grid.getDimensions()[0]; i++) {
             for (int j = 0; j < grid.getDimensions()[1]; j++) {
                 if (grid.getCell(i, j).getCellValue()) {
-                    Color color = Color.BLUE;
+                    Color color = color_vie;
                     Grid_2D.colorierCase(i, j, color);
                 } else {
-                    Color color = Color.WHITE;
+                    Color color = color_mort;
                     Grid_2D.colorierCase(i, j, color);
                 }
             }
         }
 
-        class SimulationPanel extends JPanel {
+        GFX_Start controle = new GFX_Start();
+        controle.setVisible(true);
 
-            private boolean simulationRunning = false;
-            private JButton startStopButton;
-
-            public SimulationPanel() {
-                startStopButton = new JButton("Start");
-                startStopButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        simulationRunning = !simulationRunning;
-                        startStopButton.setText(simulationRunning ? "Stop" : "Start");
-                    }
-                });
-                add(startStopButton);
-            }
-
-            public boolean isSimulationRunning() {
-                return simulationRunning;
-            }
-
-        }
-
-        SimulationPanel panel = new SimulationPanel();
-        Grid_2D.add(panel);
-        Grid_2D.revalidate();
-
-        class GridWrapper {
-
-            private STRUCT_Grid_ND grid;
-            public int GENERATIONS = 0;
-
-            public GridWrapper(STRUCT_Grid_ND grid) {
-                this.grid = grid;
-            }
-
-            public STRUCT_Grid_ND getGrid() {
-                return grid;
-            }
-
-            public void setGrid(STRUCT_Grid_ND grid) {
-                this.grid = grid;
-            }
-        }
-
-        int GENERATIONS = 0;
-        final GridWrapper gridWrapper = new GridWrapper(grid);
-        Timer timer = new Timer(10, e -> {
-            if (panel.isSimulationRunning()) {
-                System.out.println("GENERATIONS: " + gridWrapper.GENERATIONS);
+        final TOOLS_GridWrapper gridWrapper = new TOOLS_GridWrapper(grid);
+        Timer timer = new Timer(delay, e -> {
+            if (controle.isSimulationRunning()) {
+                //System.out.println("GENERATIONS: " + gridWrapper.GENERATIONS);
                 gridWrapper.setGrid(
                         run2DSimulationStep(gridWrapper.getGrid(), Grid_2D));
                 gridWrapper.GENERATIONS++;
@@ -194,9 +213,9 @@ public class Main {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 if (new_grid.getCell(i, j).getCellValue()) {
-                    Grid_2D.colorierCase(i, j, Color.BLUE);
+                    Grid_2D.colorierCase(i, j, color_vie);
                 } else {
-                    Grid_2D.colorierCase(i, j, Color.WHITE);
+                    Grid_2D.colorierCase(i, j, color_mort);
                 }
             }
         }
@@ -227,7 +246,7 @@ public class Main {
                 grid,
                 width,
                 height,
-                12);
+                taille_case);
 
         // Extract and display the 2D slice
         for (int i = 0; i < width; i++) {
@@ -241,68 +260,18 @@ public class Main {
                     cellValue = grid.getCell(i, j, value).getCellValue();
                 }
                 if (cellValue) {
-                    grid2D.colorierCase(i, j, Color.BLUE);
+                    grid2D.colorierCase(i, j, color_vie);
                 }
             }
         }
 
-        class SimulationPanel extends JPanel implements KeyListener {
+        GFX_Start controle = new GFX_Start();
+        controle.setVisible(true);
 
-            private boolean simulationRunning = false;
-
-            public SimulationPanel() {
-                addKeyListener(this);
-                setFocusable(true);
-                requestFocusInWindow();
-            }
-
-            @Override
-            public void keyTyped(KeyEvent e) {
-                if (e.getKeyChar() == 'c') {
-                    simulationRunning = true;
-                }
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-            }
-
-            public boolean isSimulationRunning() {
-                return simulationRunning;
-            }
-        }
-
-        SimulationPanel panel = new SimulationPanel();
-        grid2D.add(panel);
-        grid2D.revalidate();
-
-        class GridWrapper {
-
-            private STRUCT_Grid_ND grid;
-            public int GENERATIONS = 0;
-
-            public GridWrapper(STRUCT_Grid_ND grid) {
-                this.grid = grid;
-            }
-
-            public STRUCT_Grid_ND getGrid() {
-                return grid;
-            }
-
-            public void setGrid(STRUCT_Grid_ND grid) {
-                this.grid = grid;
-            }
-        }
-
-        int GENERATIONS = 0;
-        final GridWrapper gridWrapper = new GridWrapper(grid);
-        Timer timer = new Timer(200, e -> {
-            if (panel.isSimulationRunning()) {
-                System.out.println("GENERATIONS: " + gridWrapper.GENERATIONS);
+        final TOOLS_GridWrapper gridWrapper = new TOOLS_GridWrapper(grid);
+        Timer timer = new Timer(delay, e -> {
+            if (controle.isSimulationRunning()) {
+                //System.out.println("GENERATIONS: " + gridWrapper.GENERATIONS);
                 gridWrapper.setGrid(
                         run3DSimulationStep(
                                 gridWrapper.getGrid(),
@@ -371,9 +340,9 @@ public class Main {
                     cellValue = new_grid.getCell(i, j, value).getCellValue();
                 }
                 if (cellValue) {
-                    Grid_2D.colorierCase(i, j, Color.BLUE);
+                    Grid_2D.colorierCase(i, j, color_vie);
                 } else {
-                    Grid_2D.colorierCase(i, j, Color.WHITE);
+                    Grid_2D.colorierCase(i, j, color_mort);
                 }
             }
         }
