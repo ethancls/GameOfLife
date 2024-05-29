@@ -61,7 +61,7 @@ public class Main {
     static STRUCT_Grid_ND grid;
     static int[] cut = new int[2];
     static TOOLS_EvolutionRule evolutionRule;
-    static int height = 50; //1D hauteur
+    static int height = 500; //1D hauteur
     static int taille_case = 12;
     static int delay = 100;
     static Color color_vie = Color.BLACK;
@@ -362,8 +362,7 @@ public class Main {
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document document = db.parse(file);
             document.getDocumentElement().normalize();
-            System.out.println(
-                    "Root Element :" + document.getDocumentElement().getNodeName());
+            System.out.println("Root Element :" + document.getDocumentElement().getNodeName());
             NodeList nList = document.getDocumentElement().getChildNodes();
 
             for (int temp = 0; temp < nList.getLength(); temp++) {

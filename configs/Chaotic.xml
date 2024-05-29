@@ -1,0 +1,17 @@
+<GameOfLife>
+    <Dimension>1</Dimension>
+    <GridSize>
+        <Size>500</Size>
+    </GridSize>
+    <CustomNeighborhoods>
+        <Neighborhood>G01 = ((-2))</Neighborhood>
+        <Neighborhood>G02 = ((-1))</Neighborhood>
+        <Neighborhood>G03 = ((1))</Neighborhood>
+        <Neighborhood>G04 = ((2))</Neighborhood>
+    </CustomNeighborhoods>
+    <EvolutionRule>SI(EQ(COMPTER(G02),1), 1, SI(EQ(COMPTER(G01),1), 0, 1))</EvolutionRule>
+    <InitialCells>
+        <Cell>250</Cell>
+        <Cell>252</Cell>
+    </InitialCells>
+</GameOfLife>
