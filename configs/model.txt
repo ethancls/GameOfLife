@@ -4,7 +4,7 @@
         <Size>11</Size>
         <Size>11</Size>
     </GridSize>
-    <Cut>axis(x y z) value</Cut>
+    <Cut>axis(x y z ...) value</Cut>
     <CustomNeighborhoods>
         <Neighborhood>GXX = ((a, b, ...), (c, d, ...), ...)</Neighborhood>
     </CustomNeighborhoods>

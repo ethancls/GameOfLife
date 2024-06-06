@@ -116,7 +116,7 @@ public class GFX_GrilleGraphique extends JPanel {
     }
 
     private void zoomOut() {
-        if (scaleFactor > 0.2) { // Minimum zoom level
+        if (scaleFactor > 0) { // Minimum zoom level
             scaleFactor -= 0.05;
             repaint();
         }

@@ -151,7 +151,6 @@ public class GFX_Cube extends Application {
                         PhongMaterial material = new PhongMaterial();
                         material.setDiffuseColor(Color.RED);
                         // material.setDiffuseMap(new javafx.scene.image.Image("./brick.jpg"));
-                        material.setSpecularColor(Color.GREENYELLOW);
                         box.setMaterial(material);
                         box.setTranslateX(x * (SMALL_BOX_SIZE) - (X * (SMALL_BOX_SIZE) / 2));
                         box.setTranslateY(y * (SMALL_BOX_SIZE) - (Y * (SMALL_BOX_SIZE) / 2));

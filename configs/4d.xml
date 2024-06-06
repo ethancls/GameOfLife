@@ -1,8 +1,12 @@
 <GameOfLife>
-    <Dimension>1</Dimension>
+    <Dimension>4</Dimension>
     <GridSize>
-        <Size>2000</Size>
+        <Size>10</Size>
+        <Size>10</Size>
+        <Size>10</Size>
+        <Size>10</Size>
     </GridSize>
+    <Cut>x z 4 3</Cut>
     <CustomNeighborhoods>
         <Neighborhood>G01 = ((-2))</Neighborhood>
         <Neighborhood>G02 = ((-1))</Neighborhood>

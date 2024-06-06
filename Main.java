@@ -79,7 +79,7 @@ public class Main {
         }
 
         int[] dimensions = grid.getDimensions();
-        if (dimensions.length == 3) {
+        if (dimensions.length >= 3) {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Do you want to see a 2D cut? (yes/no): ");
             String response = scanner.nextLine();
@@ -223,10 +223,7 @@ public class Main {
         return new_grid;
     }
 
-    private static void run3DCutSimulation(
-            STRUCT_Grid_ND grid,
-            int value,
-            int axis) {
+    private static void run3DCutSimulation(STRUCT_Grid_ND grid, int value, int axis) {
         int[] dimensions = grid.getDimensions();
         int width, height;
 
