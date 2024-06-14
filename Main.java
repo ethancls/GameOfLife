@@ -51,7 +51,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /* COMMANDS TO COMPILE AND RUN
-javac --module-path ./javafx/lib --add-modules javafx.controls,javafx.fxml Main.java
+javac --module-path ./javafx/lib --add-modules javafx.controls,javafx.fxml *.java
 java --module-path ./javafx/lib --add-modules javafx.controls,javafx.fxml Main
 */
 
@@ -61,14 +61,14 @@ public class Main {
     static STRUCT_Grid_ND grid;
     static int[] cut = new int[2];
     static TOOLS_EvolutionRule evolutionRule;
-    static int height = 500; //1D hauteur
+    static int height = 500; // 1D hauteur
     static int taille_case = 12;
     static int delay = 100;
     static Color color_vie = Color.BLACK;
     static Color color_mort = Color.WHITE;
 
     public static void main(String[] args)
-        throws ParserConfigurationException, SAXException, NumberFormatException {
+            throws ParserConfigurationException, SAXException, NumberFormatException {
         TOOLS_ConfigLoader loader = new TOOLS_ConfigLoader();
         String filePath = loader.askForFilePath();
         if (filePath != null) {
@@ -79,7 +79,7 @@ public class Main {
         }
 
         int[] dimensions = grid.getDimensions();
-        if (dimensions.length == 3 || dimensions.length == 4) {
+        if (dimensions.length == 3) {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Do you want to see a 2D cut? (yes/no): ");
             String response = scanner.nextLine();
@@ -99,16 +99,20 @@ public class Main {
         }
     }
 
-    // Pas d'affichage pour les dimensions supérieures à 4
+    // Pas d'affichage pour les dimensions supérieures à 3
     private static void runNDSimulation(STRUCT_Grid_ND grid) {
-        int[] dimensions = grid.getDimensions();
-        int totalCells = 1;
-        for (int dim : dimensions) {
-            totalCells *= dim;
-        }
+
+        final TOOLS_GridWrapper gridWrapper = new TOOLS_GridWrapper(grid);
 
         Scanner scanner = new Scanner(System.in);
         Thread simulationThread = new Thread(() -> {
+            int[] dimensions = gridWrapper.getGrid().getDimensions();
+            int totalCells = 1;
+            for (int dim : dimensions) {
+                totalCells *= dim;
+            }
+            int[] NDTab = new int[totalCells];
+            
             STRUCT_Grid_ND new_grid = new STRUCT_Grid_ND(dimensions);
             boolean running = true;
             int generation = 0;
@@ -127,13 +131,19 @@ public class Main {
                     COMPTER.setSettings(grid, multiDimIndex);
                     TOOLS_EvolutionRule.cursor = 0;
                     int result = evolutionRule.createNode(TOOLS_EvolutionRule.ParseFile()).getValue();
-                    if (result == 1) {
-                        new_grid.getCell(multiDimIndex).setCellValue(true);
-                        // Grid_2D.colorierCase(multiDimIndex, generation, color_vie); // Assuming Grid_2D is a graphical representation
-                    } else {
-                        new_grid.getCell(multiDimIndex).setCellValue(false);
-                        // Grid_2D.colorierCase(multiDimIndex, generation, color_mort); // Assuming Grid_2D is a graphical representation
+                    NDTab[i] = result;
+                }
+
+                for (int i = 0; i < totalCells; i++) {
+                    int[] multiDimIndex = new int[dimensions.length];
+                    int index = i;
+                    for (int j = dimensions.length - 1; j >= 0; j--) {
+                        multiDimIndex[j] = index % dimensions[j];
+                        index /= dimensions[j];
                     }
+
+                    boolean cellValue = NDTab[i] == 1;
+                    new_grid.getCell(multiDimIndex).setCellValue(cellValue);
                 }
 
                 // Pause entre chaque étape de la simulation
@@ -143,11 +153,11 @@ public class Main {
                     e.printStackTrace();
                 }
 
-                grid = new_grid;
+                gridWrapper.setGrid(new_grid);
                 generation++;
 
                 if (!running) {
-                    System.out.println(grid.toString());;
+                    System.out.println(gridWrapper.getGrid().toString());
                 }
             }
         });
@@ -186,7 +196,7 @@ public class Main {
         final TOOLS_GridWrapper gridWrapper = new TOOLS_GridWrapper(grid);
         Timer timer = new Timer(delay, e -> {
             if (controle.isSimulationRunning()) {
-                //System.out.println("GENERATIONS: " + gridWrapper.GENERATIONS);
+                // System.out.println("GENERATIONS: " + gridWrapper.GENERATIONS);
                 gridWrapper.setGrid(run1DSimulationStep(gridWrapper.getGrid(), grid2D, gridWrapper.GENERATIONS + 1));
                 gridWrapper.GENERATIONS++;
             }
@@ -246,7 +256,7 @@ public class Main {
         final TOOLS_GridWrapper gridWrapper = new TOOLS_GridWrapper(grid);
         Timer timer = new Timer(delay, e -> {
             if (controle.isSimulationRunning()) {
-                //System.out.println("GENERATIONS: " + gridWrapper.GENERATIONS);
+                // System.out.println("GENERATIONS: " + gridWrapper.GENERATIONS);
                 gridWrapper.setGrid(
                         run2DSimulationStep(gridWrapper.getGrid(), Grid_2D));
                 gridWrapper.GENERATIONS++;
@@ -337,7 +347,7 @@ public class Main {
         final TOOLS_GridWrapper gridWrapper = new TOOLS_GridWrapper(grid);
         Timer timer = new Timer(delay, e -> {
             if (controle.isSimulationRunning()) {
-                //System.out.println("GENERATIONS: " + gridWrapper.GENERATIONS);
+                // System.out.println("GENERATIONS: " + gridWrapper.GENERATIONS);
                 gridWrapper.setGrid(
                         run3DSimulationStep(
                                 gridWrapper.getGrid(),
