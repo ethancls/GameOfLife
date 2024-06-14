@@ -115,7 +115,6 @@ public class TOOLS_EvolutionRule {
 
     }
 
-    @SuppressWarnings("unused")
     private static boolean isNumeric(String buffer) {
         if (buffer == null) {
             return false;
