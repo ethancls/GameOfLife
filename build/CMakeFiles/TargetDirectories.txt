@@ -1,4 +1,0 @@
-/Users/ethan/Documents/GitHub/GameOfLife/build/CMakeFiles/GameOfLife.dir
-/Users/ethan/Documents/GitHub/GameOfLife/build/CMakeFiles/test.dir
-/Users/ethan/Documents/GitHub/GameOfLife/build/CMakeFiles/edit_cache.dir
-/Users/ethan/Documents/GitHub/GameOfLife/build/CMakeFiles/rebuild_cache.dir

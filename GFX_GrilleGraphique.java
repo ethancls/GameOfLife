@@ -95,13 +95,28 @@ public class GFX_GrilleGraphique extends JPanel {
         g2d.scale(scaleFactor, scaleFactor);
         g2d.translate(offsetX / scaleFactor, offsetY / scaleFactor);
 
+        // Cases
         for (ColoredPoint fillCell : casesAColorier) {
             int cellX = taille_case + (fillCell.getPoint().x * taille_case);
             int cellY = taille_case + (fillCell.getPoint().y * taille_case);
             g2d.setColor(fillCell.getColor());
             g2d.fillRect(cellX, cellY, (int) taille_case, (int) taille_case);
         }
+
+        // Grille
+        g.setColor(Color.BLACK);
+		g.drawRect(taille_case, taille_case, largeur*taille_case, hauteur*taille_case);
+
+		for (int i = taille_case; i <= largeur*taille_case; i += taille_case) {
+			g.drawLine(i, taille_case, i, hauteur*taille_case+taille_case);
+		}
+
+		for (int i = taille_case; i <= hauteur*taille_case; i += taille_case) {
+			g.drawLine(taille_case, i, largeur*taille_case+taille_case, i);
+		}
     }
+
+    
 
     public void colorierCase(int x, int y, Color color) {
         casesAColorier.add(new ColoredPoint(new Point(x, y), color));
