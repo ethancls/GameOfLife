@@ -79,7 +79,7 @@ public class Main {
         }
 
         int[] dimensions = grid.getDimensions();
-        if (dimensions.length >= 3) {
+        if (dimensions.length == 3 || dimensions.length == 4) {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Do you want to see a 2D cut? (yes/no): ");
             String response = scanner.nextLine();
@@ -94,7 +94,76 @@ public class Main {
             run2DSimulation(grid);
         } else if (dimensions.length == 1) {
             run1DSimulation(grid);
+        } else {
+            runNDSimulation(grid);
         }
+    }
+
+    // Pas d'affichage pour les dimensions supérieures à 4
+    private static void runNDSimulation(STRUCT_Grid_ND grid) {
+        int[] dimensions = grid.getDimensions();
+        int totalCells = 1;
+        for (int dim : dimensions) {
+            totalCells *= dim;
+        }
+
+        Scanner scanner = new Scanner(System.in);
+        Thread simulationThread = new Thread(() -> {
+            STRUCT_Grid_ND new_grid = new STRUCT_Grid_ND(dimensions);
+            boolean running = true;
+            int generation = 0;
+
+            while (running) {
+                new_grid = new STRUCT_Grid_ND(dimensions);
+
+                for (int i = 0; i < totalCells; i++) {
+                    int[] multiDimIndex = new int[dimensions.length];
+                    int index = i;
+                    for (int j = dimensions.length - 1; j >= 0; j--) {
+                        multiDimIndex[j] = index % dimensions[j];
+                        index /= dimensions[j];
+                    }
+
+                    COMPTER.setSettings(grid, multiDimIndex);
+                    TOOLS_EvolutionRule.cursor = 0;
+                    int result = evolutionRule.createNode(TOOLS_EvolutionRule.ParseFile()).getValue();
+                    if (result == 1) {
+                        new_grid.getCell(multiDimIndex).setCellValue(true);
+                        // Grid_2D.colorierCase(multiDimIndex, generation, color_vie); // Assuming Grid_2D is a graphical representation
+                    } else {
+                        new_grid.getCell(multiDimIndex).setCellValue(false);
+                        // Grid_2D.colorierCase(multiDimIndex, generation, color_mort); // Assuming Grid_2D is a graphical representation
+                    }
+                }
+
+                // Pause entre chaque étape de la simulation
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                grid = new_grid;
+                generation++;
+
+                if (!running) {
+                    System.out.println(grid.toString());;
+                }
+            }
+        });
+
+        simulationThread.start();
+
+        // Lire l'entrée de l'utilisateur pour arrêter la simulation
+        while (true) {
+            String input = scanner.nextLine();
+            if (input.equals(" ")) {
+                simulationThread.interrupt();
+                break;
+            }
+        }
+
+        scanner.close();
     }
 
     private static void run1DSimulation(STRUCT_Grid_ND grid) {
