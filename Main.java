@@ -61,7 +61,7 @@ public class Main {
     private TOOLS_EvolutionRule evolutionRule;
     private int height = 2000; // 1D hauteur
     private int taille_case = 12;
-    private int delay = 100;
+    private int delay = 50;
     private Color color_vie = Color.BLUE;
     private Color color_mort = Color.WHITE;
 
