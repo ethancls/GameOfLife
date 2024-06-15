@@ -123,7 +123,7 @@ public class TOOLS_Neighborhoods {
         };
         customNeighborhoods.add(new CustomNeighborhood(name, customNeighborhood));
     }
-/Users/ethan/Downloads/GameOfLife/!rapport.pdf
+
     public String toString() {
         return "********* NEIGHBORHOODS **********\n"
                 + "Predefined neighborhoods: G0, G2, G4, G8, G6, G26, G2*, G4*, G8*, G6*, G26*\n"
