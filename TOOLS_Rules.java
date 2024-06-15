@@ -163,6 +163,20 @@ class Rule3D {
     }
 }
 
+class Rule2D {
+
+    public boolean isAlive(STRUCT_Grid_ND grid, int ...position) 
+    {
+        int x = position[0];
+        int y = position[1];
+
+        COMPTER.setSettings(grid, x, y);
+        TOOLS_EvolutionRule rule2d = new TOOLS_EvolutionRule("SI(EQ(COMPTER(G0),1), SI(OU(EQ(COMPTER(G8*),2),EQ(COMPTER(G8*),3)),1,0),SI(EQ(COMPTER(G8*),3),1,0))", false);
+        rule2d.cursor = 0;
+        return rule2d.createNode(rule2d.parseFile()).getValue() == 1;
+    }
+}
+
 public class TOOLS_Rules {
 
     public static int evaluate(TreeNode tree) {
