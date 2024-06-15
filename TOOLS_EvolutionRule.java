@@ -20,16 +20,16 @@ import org.xml.sax.SAXException;
 public class TOOLS_EvolutionRule {
 
     public String path = "";
-    public static String fileContent = "";
-    public static int cursor = 0;
+    public String fileContent = "";
+    public int cursor = 0;
 
     public TOOLS_EvolutionRule(String path, boolean isPath) {
-        if(isPath == true){
+        if (isPath) {
             this.path = path;
-            TOOLS_EvolutionRule.fileContent = readFileContent();
+            this.fileContent = readFileContent();
             System.out.println(fileContent);
         } else {
-            TOOLS_EvolutionRule.fileContent = path;
+            this.fileContent = path;
         }
     }
 
@@ -49,7 +49,7 @@ public class TOOLS_EvolutionRule {
         return content.toString();
     }
 
-    public static String ParseFile() {
+    public String parseFile() {
         StringBuilder buffer = new StringBuilder();
 
         // Vérifiez que 'cursor' et 'fileContent' sont correctement initialisés
@@ -62,11 +62,8 @@ public class TOOLS_EvolutionRule {
             char currentChar = fileContent.charAt(cursor);
             if (currentChar == '(' || currentChar == ')' || currentChar == ',' || currentChar == ' ') {
                 cursor++; // passez au caractère suivant pour la prochaine appel
-                // Continuer à avancer le curseur si le caractère suivant est également un
-                // délimiteur
-                while (cursor < fileContent.length()
-                        && (fileContent.charAt(cursor) == '(' || fileContent.charAt(cursor) == ')'
-                                || fileContent.charAt(cursor) == ',' || fileContent.charAt(cursor) == ' ')) {
+                // Continuer à avancer le curseur si le caractère suivant est également un délimiteur
+                while (cursor < fileContent.length() && (fileContent.charAt(cursor) == '(' || fileContent.charAt(cursor) == ')' || fileContent.charAt(cursor) == ',' || fileContent.charAt(cursor) == ' ')) {
                     cursor++;
                 }
                 break;
@@ -79,43 +76,46 @@ public class TOOLS_EvolutionRule {
     }
 
     public TreeNode createNode(String buffer) {
-        if (isNumeric(buffer) == true) {
+        if (isNumeric(buffer)) {
             // Create a node with the constant
             return new ConstNode(Integer.parseInt(buffer));
         } else {
             // Create a node with the operator
             switch (buffer) {
                 case "ET":
-                    return new ET(createNode(ParseFile()), createNode(ParseFile()));
+                    return new ET(createNode(parseFile()), createNode(parseFile()));
                 case "OU":
-                    return new OU(createNode(ParseFile()), createNode(ParseFile()));
+                    return new OU(createNode(parseFile()), createNode(parseFile()));
                 case "NON":
-                    return new NON(createNode(ParseFile()));
+                    return new NON(createNode(parseFile()));
                 case "SUP":
-                    return new SUP(createNode(ParseFile()), createNode(ParseFile()));
+                    return new SUP(createNode(parseFile()), createNode(parseFile()));
                 case "SUPEQ":
-                    return new SUPEQ(createNode(ParseFile()), createNode(ParseFile()));
+                    return new SUPEQ(createNode(parseFile()), createNode(parseFile()));
                 case "EQ":
-                    return new EQ(createNode(ParseFile()), createNode(ParseFile()));
+                    return new EQ(createNode(parseFile()), createNode(parseFile()));
                 case "ADD":
-                    return new ADD(createNode(ParseFile()), createNode(ParseFile()));
+                    return new ADD(createNode(parseFile()), createNode(parseFile()));
                 case "SUB":
-                    return new SUB(createNode(ParseFile()), createNode(ParseFile()));
+                    return new SUB(createNode(parseFile()), createNode(parseFile()));
                 case "MUL":
-                    return new MUL(createNode(ParseFile()), createNode(ParseFile()));
+                    return new MUL(createNode(parseFile()), createNode(parseFile()));
                 case "SI":
-                    return new SI(createNode(ParseFile()), createNode(ParseFile()), createNode(ParseFile()));
+                    return new SI(createNode(parseFile()), createNode(parseFile()), createNode(parseFile()));
                 case "COMPTER":
-                    return new COMPTER(ParseFile());
+                    return new COMPTER(parseFile());
                 default:
                     System.out.println("Error: Invalid operator");
                     return null;
             }
         }
-
     }
 
-    private static boolean isNumeric(String buffer) {
+    public void setCursor(int cursor) {
+        this.cursor = cursor;
+    }
+
+    private boolean isNumeric(String buffer) {
         if (buffer == null) {
             return false;
         }

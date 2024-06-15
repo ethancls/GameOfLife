@@ -1,11 +1,10 @@
 import java.util.Random;
-
-// 3D
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.css.Rule;
 import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
@@ -20,11 +19,6 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
-/* COMMANDS TO COMPILE AND RUN
-javac --module-path ./javafx/lib --add-modules javafx.controls,javafx.fxml GFX_Cube.java
-java --module-path ./javafx/lib --add-modules javafx.controls,javafx.fxml GFX_Cube  
-*/
 
 @SuppressWarnings("unused")
 public class GFX_Cube extends Application {
@@ -43,13 +37,11 @@ public class GFX_Cube extends Application {
         // Default constructor
     }
 
-    public GFX_Cube(STRUCT_Grid_ND grid) {
+    public GFX_Cube(STRUCT_Grid_ND grid, String content) {
         GFX_Cube.grid = grid;
         X = grid.getDimensions()[0];
         Y = grid.getDimensions()[1];
         Z = grid.getDimensions()[2];
-        System.out.println("Grid passed to GFX_Cube:");
-        System.out.println(grid.toString()); // Verify grid content
     }
 
     private double anchorX, anchorY;
@@ -124,11 +116,11 @@ public class GFX_Cube extends Application {
 
     private void updateCube() {
         STRUCT_Grid_ND new_grid = new STRUCT_Grid_ND(grid.getDimensions());
-        
+
         for (int x = 0; x < X; x++) {
             for (int y = 0; y < Y; y++) {
                 for (int z = 0; z < Z; z++) {
-                    if (new Rule3D().isAlive(grid, x, y, z)) {
+                    if (new Rule3D().isAlive(grid, x, y, z)){
                         new_grid.getCell(x, y, z).setCellValue(true);
                     } else {
                         new_grid.getCell(x, y, z).setCellValue(false);
@@ -150,7 +142,7 @@ public class GFX_Cube extends Application {
                         Box box = new Box(SMALL_BOX_SIZE, SMALL_BOX_SIZE, SMALL_BOX_SIZE);
                         PhongMaterial material = new PhongMaterial();
                         material.setDiffuseColor(Color.RED);
-                        // material.setDiffuseMap(new javafx.scene.image.Image("./brick.jpg"));
+                        material.setSpecularColor(Color.RED);
                         box.setMaterial(material);
                         box.setTranslateX(x * (SMALL_BOX_SIZE) - (X * (SMALL_BOX_SIZE) / 2));
                         box.setTranslateY(y * (SMALL_BOX_SIZE) - (Y * (SMALL_BOX_SIZE) / 2));

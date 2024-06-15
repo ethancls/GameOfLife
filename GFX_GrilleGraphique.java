@@ -104,7 +104,7 @@ public class GFX_GrilleGraphique extends JPanel {
         }
 
         // Grille
-        g.setColor(Color.BLACK);
+        /*g.setColor(Color.BLACK);
 		g.drawRect(taille_case, taille_case, largeur*taille_case, hauteur*taille_case);
 
 		for (int i = taille_case; i <= largeur*taille_case; i += taille_case) {
@@ -113,7 +113,7 @@ public class GFX_GrilleGraphique extends JPanel {
 
 		for (int i = taille_case; i <= hauteur*taille_case; i += taille_case) {
 			g.drawLine(taille_case, i, largeur*taille_case+taille_case, i);
-		}
+		}*/
     }
 
     

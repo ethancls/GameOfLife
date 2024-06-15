@@ -158,21 +158,8 @@ class Rule3D {
 
         COMPTER.setSettings(grid, x, y, z);
         TOOLS_EvolutionRule rule3d = new TOOLS_EvolutionRule("SI(EQ(COMPTER(G0),1), SI(OU(EQ(COMPTER(G26*),5),EQ(COMPTER(G26*),6)),1,0) , SI(EQ(COMPTER(G26*),4),1,0))", false);
-        TOOLS_EvolutionRule.cursor = 0;
-        return rule3d.createNode(TOOLS_EvolutionRule.ParseFile()).getValue() == 1;
-    }
-}
-
-class Rule2D {
-
-    public boolean isAlive(STRUCT_Grid_ND grid, int ...position) 
-    {
-        int x = position[0];
-        int y = position[1];
-        COMPTER.setSettings(grid, x, y);
-        TOOLS_EvolutionRule rule3d = new TOOLS_EvolutionRule("SI(EQ(COMPTER(G0),1), SI(OU(EQ(COMPTER(G8*),2),EQ(COMPTER(G8*),3)),1,0) , SI(EQ(COMPTER(G8*),3),1,0))", false);
-        TOOLS_EvolutionRule.cursor = 0;
-        return rule3d.createNode(TOOLS_EvolutionRule.ParseFile()).getValue() == 1;
+        rule3d.cursor = 0;
+        return rule3d.createNode(rule3d.parseFile()).getValue() == 1;
     }
 }
 

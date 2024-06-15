@@ -124,15 +124,6 @@ public class TOOLS_Neighborhoods {
         customNeighborhoods.add(new CustomNeighborhood(name, customNeighborhood));
     }
 
-    public static List<int[]> useCustomNeighborhood(String name, int... position) {
-        Neighborhood neighborhood = getNeighborhoodByName(name);
-        if (neighborhood != null) {
-            return neighborhood.getNeighbors(position);
-        } else {
-            throw new IllegalArgumentException("Neighborhood " + name + " does not exist.");
-        }
-    }
-
     public String toString() {
         return "********* NEIGHBORHOODS **********\n"
                 + "Predefined neighborhoods: G0, G2, G4, G8, G6, G26, G2*, G4*, G8*, G6*, G26*\n"
